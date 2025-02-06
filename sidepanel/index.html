@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="index.css" />
+  </head>
+  <body>
+    <h1>Lecture Summariser</h1>
+    <button id="api-key-toggle" class="toggle-button">⚙️ Show API Settings</button>
+    <div class="api-key-section collapsed">
+      <input
+        type="password"
+        id="api-key"
+        placeholder="Enter API key"
+        class="compact-input"
+      />
+      <button id="save-api-key" class="secondary compact-button">Save</button>
+    </div>
+    <textarea
+      id="input-prompt"
+      placeholder="Type something here to summarise..."
+      cols="30"
+      rows="5"
+    ></textarea>
+    <div>
+      <input
+        type="range"
+        id="temperature"
+        name="temperature"
+        min="0"
+        max="2"
+        step="0.01"
+        value="1"
+      />
+      <label for="temperature"
+        >Temperature: <span id="label-temperature">1</span></label
+      >
+    </div>
+    <button id="button-prompt" class="primary" disabled>Run</button>
+    <div id="response" class="text" hidden></div>
+    <div id="loading" class="text" hidden><span class="blink">...</span></div>
+    <div id="error" class="text" hidden></div>
+    <script src="../dist/sidepanel.bundle.js" type="module"></script>
+  </body>
+</html>
