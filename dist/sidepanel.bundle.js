@@ -1398,6 +1398,11 @@
     const apiKeyToggle = document.body.querySelector('#api-key-toggle');
     const apiKeySection = document.body.querySelector('.api-key-section');
 
+    // Set initial text content
+    apiKeyToggle.textContent = apiKeySection.classList.contains('collapsed') 
+      ? '⚙️ Show API Settings' 
+      : '⚙️ Hide API Settings';
+
     apiKeyToggle.addEventListener('click', () => {
       apiKeySection.classList.toggle('collapsed');
       apiKeyToggle.textContent = apiKeySection.classList.contains('collapsed') 
