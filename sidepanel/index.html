@@ -5,6 +5,9 @@
   </head>
   <body>
     <h1>Lecture Summariser</h1>
+    <div id="api-key-message" class="text" style="margin-bottom: 16px;">
+      API key required, you can create one here: <a href="https://aistudio.google.com/app/apikey" target="_blank">https://aistudio.google.com/app/apikey</a>
+    </div>
     <button id="api-key-toggle" class="toggle-button">⚙️ Show API Settings</button>
     <div class="api-key-section collapsed">
       <input
@@ -23,11 +26,13 @@
       placeholder="Type something here to summarise..."
       cols="30"
       rows="5"
+      hidden
     ></textarea>
     <button id="button-prompt" class="primary" disabled>Run</button>
     <div id="response" class="text" hidden></div>
     <div id="loading" class="text" hidden><span class="blink">...</span></div>
     <div id="error" class="text" hidden></div>
+    <div id="transcript-success" class="text" hidden>Transcript fetched successfully</div>
     <script src="../dist/sidepanel.bundle.js" type="module"></script>
   </body>
 </html>

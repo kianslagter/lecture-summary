@@ -129,3 +129,12 @@ textarea {
 .secondary {
   background-color: #4a4a4a;
 }
+
+.text a {
+  color: #333;
+  text-decoration: underline;
+}
+
+.text a:hover {
+  color: #666;
+}

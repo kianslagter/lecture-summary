@@ -1,6 +1,6 @@
 function findEchoPlayerData() {
   return new Promise((resolve, reject) => {
-    console.log('Looking for Echo Player props...');
+    console.log('Looking for Echo Player data...');
     
     const extractMediaId = () => {
       // Try multiple methods to extract MediaID
@@ -8,7 +8,6 @@ function findEchoPlayerData() {
       
       if (video) {
         const posterURL = video.getAttribute('poster');
-        console.log('Full Poster URL:', posterURL);
         
         // Regex to extract MediaID without the /1
         const mediaIdMatch = posterURL.match(/\/([^/]+)\/[^/]+\/poster1\.jpg/);

@@ -37,6 +37,13 @@ const lessonIdInput = document.body.querySelector('#lesson-id');
 const mediaIdInput = document.body.querySelector('#media-id');
 const fetchTranscriptButton = document.body.querySelector('#fetch-transcript');
 
+// Add this line to select the success message element
+const elementTranscriptSuccess = document.body.querySelector('#transcript-success');
+
+// Add new element reference at the top with other element declarations
+const elementApiKeyMessage = document.body.querySelector('#api-key-message');
+let isTranscriptFetched = false;
+
 // Set initial text content
 apiKeyToggle.textContent = apiKeySection.classList.contains('collapsed') 
   ? '⚙️ Show API Settings' 
@@ -55,8 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (savedApiKey) {
     apiKeyInput.value = savedApiKey;
     initModel(generationConfig);
-    buttonPrompt.disabled = false;
+    elementApiKeyMessage.hidden = true;
   }
+  updateRunButtonState();
 });
 
 // Save API key
@@ -65,17 +73,32 @@ saveApiKeyButton.addEventListener('click', () => {
   if (apiKey) {
     localStorage.setItem('gemini_api_key', apiKey);
     initModel(generationConfig);
-    buttonPrompt.disabled = false;
+    elementApiKeyMessage.hidden = true;
+    updateRunButtonState();
   } else {
-    elementError.textContent = 'Please enter a valid API key';
+    elementError.textContent = 'API key required, you can create one here: https://aistudio.google.com/app/apikey';
     elementError.hidden = false;
   }
 });
 
+// Add new function to check and update run button state
+function updateRunButtonState() {
+  const hasApiKey = !!localStorage.getItem('gemini_api_key');
+  buttonPrompt.disabled = !(hasApiKey && isTranscriptFetched);
+  
+  if (!hasApiKey) {
+    showError('API key is required');
+  } else if (!isTranscriptFetched) {
+    showError('Please fetch a transcript first');
+  } else {
+    elementError.hidden = true;
+  }
+}
+
 function initModel(generationConfig) {
   const apiKey = localStorage.getItem('gemini_api_key');
   if (!apiKey) {
-    elementError.textContent = 'Please save your API key first';
+    elementError.textContent = 'API key required, you can create one here: https://aistudio.google.com/app/apikey';
     elementError.hidden = false;
     return null;
   }
@@ -125,6 +148,15 @@ inputPrompt.addEventListener('input', () => {
 });
 
 buttonPrompt.addEventListener('click', async () => {
+  if (!localStorage.getItem('gemini_api_key')) {
+    showError('API key is required');
+    return;
+  }
+  if (!isTranscriptFetched) {
+    showError('Please fetch a transcript first');
+    return;
+  }
+  
   const prompt = inputPrompt.value.trim();
   showLoading();
   try {
@@ -142,9 +174,7 @@ fetchTranscriptButton.addEventListener('click', async () => {
     console.log('Fetch transcript button clicked');
     
     // Get current tab to check if we're on Echo360
-    console.log('Querying current tab...');
     const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
-    console.log('Current tabs:', tabs);
     
     if (!tabs || tabs.length === 0) {
       console.error('No active tab found');
@@ -153,20 +183,12 @@ fetchTranscriptButton.addEventListener('click', async () => {
     }
     
     const tab = tabs[0];
-    console.log('Current tab:', tab);
     
-    if (!tab.url) {
-      console.error('Tab URL is undefined');
-      showError('Could not access tab URL');
-      return;
-    }
-
     if (!tab.url.includes('echo360.net.au') && !tab.url.includes('myuni.adelaide.edu.au')) {
-      console.log('Not on Echo360 page. Current URL:', tab.url);
       showError('Please navigate to an Echo360 lecture page first');
       return;
     }
-
+    
     showLoading();
     
     // Send message to content script to find Echo Player props
@@ -176,24 +198,24 @@ fetchTranscriptButton.addEventListener('click', async () => {
       showError('Could not find Echo360 player on this page. Please make sure you are on a lecture page.');
       return;
     }
-
-    console.log('Getting bearer token...');
+    
     const bearerToken = await getBearerToken();
-    console.log('Bearer token retrieved:', bearerToken ? 'Yes' : 'No');
-
-    console.log('Fetching transcript with:', {
-      lessonId: response.lessonId,
-      mediaId: response.mediaId,
-      bearerToken: bearerToken ? 'Present' : 'Missing'
-    });
-
+    
     const transcript = await fetchTranscript(response.lessonId, response.mediaId, bearerToken);
     console.log('Transcript received, length:', transcript?.length);
-    inputPrompt.value = "As a professional summarizer, create a concise and comprehensive summary of the provided text, which is an audio transcript of an academic lecture, while adhering to these guidelines: 1. Craft a summary that is detailed, thorough, in-depth, and complex, while maintaining clarity and conciseness. 2. Incorporate all main ideas and all inital information provided and ensuring ease of understanding. 3. Rely strictly on the provided text, without including external information. 4. Format the summary in sections for a note taking form for easy understanding. By following this optimized prompt, you will generate an effective summary that encapsulates the essence of the given text in a clear, concise, and reader-friendly manner. Please follow these instructions for the following text:" + transcript;
+    
+    inputPrompt.value = "As a professional summarizer, create a concise and comprehensive summary of the provided text, which is an audio transcript of an academic lecture, while adhering to these guidelines: 1. Craft a summary that is detailed, thorough, in-depth, and complex, while maintaining clarity and conciseness. 2. Incorporate all main ideas and all initial information provided and ensuring ease of understanding. 3. Rely strictly on the provided text, without including external information. 4. Format the summary in sections for a note-taking form for easy understanding. By following these optimized prompts, you will generate an effective summary that encapsulates the essence of the given text in a clear, concise, and reader-friendly manner. Please follow these instructions for the following text:" + transcript;
+    
+    // Update transcript fetched state
+    isTranscriptFetched = true;
+    elementTranscriptSuccess.hidden = false;
     hide(elementLoading);
+    updateRunButtonState();
   } catch (error) {
     console.error('Fetch transcript error:', error);
     showError(error.message);
+    isTranscriptFetched = false;
+    updateRunButtonState();
   }
 });
 
