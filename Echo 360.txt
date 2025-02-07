@@ -1,0 +1,920 @@
+{
+    "canViewAnalytics": false,
+    "captions": null,
+    "context": {
+        "courseId": "ce1e94ee-f1c0-494c-8fbd-1d6e6180401b",
+        "lessonId": "G_ccac0048-9589-4882-8c7f-6d7bf3759114_401e0abf-0a74-41d7-ab39-047f7e9c81f9_2024-07-30T09:10:00.000_2024-07-30T10:00:00.000",
+        "organizationId": "bfc2bb62-d4e2-48f7-884c-8a7e71124edc",
+        "sectionId": "401e0abf-0a74-41d7-ab39-047f7e9c81f9",
+        "termId": "41385ba9-3165-4840-aeac-72fbcb003dec"
+    },
+    "chapters": null,
+    "copyrightData": {
+        "copyrightEnabled": false,
+        "enabledPrivileges": [],
+        "restrictDownload": false,
+        "restrictUnauthenticatedViewing": false,
+        "enforceCopyrightAcknowledgement": false,
+        "copyrightPolicyText": null,
+        "copyrightAcknowledged": false
+    },
+    "polls": [],
+    "cookieRenewalIntervalMillis": 3600000,
+    "heatmapData": [
+        172,
+        215,
+        265,
+        275,
+        264,
+        266,
+        250,
+        238,
+        261,
+        263,
+        266,
+        266,
+        267,
+        257,
+        237,
+        229,
+        224,
+        234,
+        240,
+        237,
+        235,
+        230,
+        221,
+        220,
+        249,
+        255,
+        258,
+        266,
+        264,
+        252,
+        247,
+        240,
+        232,
+        232,
+        257,
+        263,
+        252,
+        241,
+        253,
+        260,
+        257,
+        254,
+        258,
+        265,
+        250,
+        251,
+        255,
+        260,
+        261,
+        257,
+        249,
+        239,
+        233,
+        229,
+        262,
+        270,
+        262,
+        258,
+        257,
+        251,
+        248,
+        262,
+        249,
+        244,
+        242,
+        249,
+        240,
+        235,
+        229,
+        227,
+        219,
+        210,
+        226,
+        237,
+        230,
+        218,
+        220,
+        219,
+        223,
+        224,
+        237,
+        245,
+        245,
+        244,
+        239,
+        246,
+        243,
+        239,
+        228,
+        214,
+        222,
+        237,
+        246,
+        242,
+        229,
+        226,
+        218,
+        205,
+        157,
+        119,
+        41
+    ],
+    "lesson": {
+        "id": "G_ccac0048-9589-4882-8c7f-6d7bf3759114_401e0abf-0a74-41d7-ab39-047f7e9c81f9_2024-07-30T09:10:00.000_2024-07-30T10:00:00.000",
+        "institutionId": "fd90a7c5-1755-4b78-9f78-d55c1addf19d",
+        "sectionId": "401e0abf-0a74-41d7-ab39-047f7e9c81f9",
+        "captureOccurrenceId": "ccac0048-9589-4882-8c7f-6d7bf3759114_20240729T2340",
+        "name": "2024-07-30 09:10:00 (LEC) / G60 Bragg Lecture Theatre / The Braggs",
+        "timing": {
+            "start": "2024-07-30T09:10:00.000",
+            "end": "2024-07-30T10:00:00.000"
+        },
+        "timeZone": {
+            "id": "Australia/Adelaide",
+            "name": "(+09:30) Australia/Adelaide",
+            "standardOffset": "PT9H30M"
+        },
+        "fromSchedule": true,
+        "shouldStreamLive": false,
+        "createdAt": "2024-07-30T00:31:02.744Z",
+        "updatedAt": "2024-07-30T00:31:02.744Z",
+        "isFolderLesson": false,
+        "displayName": "2024-07-30 09:10:00 (LEC) / G60 Bragg Lecture Theatre / The Braggs",
+        "lessonHasName": true
+    },
+    "locale": "en-AU",
+    "isMuted": false,
+    "isPlaying": false,
+    "sectionInfo": {
+        "section": {
+            "id": "401e0abf-0a74-41d7-ab39-047f7e9c81f9",
+            "institutionId": "fd90a7c5-1755-4b78-9f78-d55c1addf19d",
+            "courseId": "ce1e94ee-f1c0-494c-8fbd-1d6e6180401b",
+            "termId": "41385ba9-3165-4840-aeac-72fbcb003dec",
+            "scheduleIds": [
+                "b48620f7-1fa3-4cd2-89f9-777d3cacbe7f",
+                "ccac0048-9589-4882-8c7f-6d7bf3759114",
+                "05d014c5-68d4-4713-abf7-4a56867a793b",
+                "69552afa-1925-447d-83e5-903ff09e7fbd",
+                "f652ecae-e122-4222-a720-5243d0602aff",
+                "7d28ceb1-dbc2-4b24-8ac1-845065179c7e",
+                "2656f62d-812f-4976-9821-0bd47cae3244",
+                "18cc7886-2257-469c-bb1b-e06367da6ad6",
+                "8d1ccf30-60ce-4a61-99ad-890fceacee6e",
+                "ff78d582-8010-4c0a-a3eb-c1e4264e4867",
+                "8b9d2409-56ea-419c-8153-1b591c917513",
+                "40dfd289-78aa-4aef-971d-382a17bf8232",
+                "7b9d3b28-21e2-483e-b9d7-7d7af11570b8",
+                "3d3c4b4d-62d0-4d2f-aba8-2a7af5428b5c",
+                "1fea935c-986c-4a52-a65e-97a4f790892a",
+                "edd204b1-e9a8-4115-a7a6-c3082248d8bb",
+                "65f9970c-9528-4c29-835c-237f10605b33",
+                "1ffb3cfc-66fc-4d18-acb4-7c8d51b30d7d",
+                "0b6c1800-0afa-4e15-9b47-c7586c3416e7",
+                "13b485e8-e63d-492e-9947-c0bc697818e4",
+                "7d5e5d16-d2b1-409d-8908-f30e72931b63",
+                "9df0354e-75fa-4da3-8743-cfa755fa6ee2",
+                "0812c0c3-08d2-421d-be1d-2766b431ccdb",
+                "54d1a4d5-767f-402d-ab8b-8c19337f5d05"
+            ],
+            "sectionNumber": "Computer Systems (2000_7081 Combined)",
+            "gradeType": "Manual",
+            "createdAt": "2023-11-30T05:45:32.376Z",
+            "updatedAt": "2024-11-24T15:07:05.720Z",
+            "isFolder": false
+        },
+        "course": {
+            "id": "ce1e94ee-f1c0-494c-8fbd-1d6e6180401b",
+            "institutionId": "fd90a7c5-1755-4b78-9f78-d55c1addf19d",
+            "organizationId": "bfc2bb62-d4e2-48f7-884c-8a7e71124edc",
+            "courseName": "Computer Systems (2000_7081 Combined)",
+            "courseIdentifier": "4420_UNIAD_COMP_SCI_X_0004",
+            "sectionCount": 1,
+            "createdAt": "2023-11-30T05:35:13.050Z",
+            "updatedAt": "2024-11-24T14:34:56.409Z"
+        },
+        "term": {
+            "id": "41385ba9-3165-4840-aeac-72fbcb003dec",
+            "institutionId": "fd90a7c5-1755-4b78-9f78-d55c1addf19d",
+            "name": "4420 - 2024 Semester 2",
+            "session": {
+                "startDate": "2024-01-01",
+                "endDate": "2024-12-31"
+            },
+            "exceptions": [],
+            "sectionCount": 2059,
+            "lmsSelected": false,
+            "createdAt": "2023-10-31T06:42:07.274Z",
+            "updatedAt": "2024-10-30T05:30:14.904Z"
+        },
+        "label": "4420_UNIAD_COMP_SCI_X_0004 - Computer Systems (2000_7081 Combined) Computer Systems (2000_7081 Combined) (4420 - 2024 Semester 2)",
+        "isFolder": false
+    },
+    "slides": {
+        "slideDeck": null,
+        "slidesWithImages": null,
+        "startSlideIndex": null
+    },
+    "startTimeMillis": null,
+    "viewEmbedInfo": {
+        "linkId": "required but not used",
+        "mediaName": "2024-07-30 09:10:00 (LEC) / G60 Bragg Lecture Theatre / The Braggs",
+        "loggedIn": false,
+        "loginCheck": false,
+        "autoPlay": false,
+        "autoMute": false,
+        "playerType": "required but not used"
+    },
+    "hasContent": true,
+    "user": {
+        "services": {
+            "embedly": {
+                "isSecure": true,
+                "key": "b9c0511e7d564707bee1438331d9efbd",
+                "baseUrl": "https://api.embed.ly/1/oembed",
+                "isFrame": true,
+                "echoDomainList": [
+                    "echo360qa.org",
+                    "echo360qa.dev",
+                    "echo360.org",
+                    "echo360.org.au",
+                    "echo360.net.au",
+                    "echo360.ca",
+                    "echo360.org.uk"
+                ]
+            },
+            "pubnub": {
+                "nonPresenceConfig": {
+                    "authKey": "47f88b9b-8cf3-447c-b918-b20ae586d72a",
+                    "suppressLeaveEvents": true,
+                    "restore": true,
+                    "uuid": "user_384185c8-8072-49a9-a05a-e085a1109b88@fd90a7c5-1755-4b78-9f78-d55c1addf19d",
+                    "presenceTimeout": 300,
+                    "useRandomIVs": false,
+                    "cipherKey": "k:9ZNEp!a-H-A=1&mEL]Raw]cqK)i1A7",
+                    "useRequestId": true,
+                    "subscribeKey": "sub-c-6649d8e8-46cf-11ea-aca8-a22e61d49bc9",
+                    "publishKey": "pub-c-866fa53f-beef-4a89-a2f4-db6179c2006f",
+                    "heartbeatInterval": 0
+                },
+                "forPresenceConfig": {
+                    "authKey": "47f88b9b-8cf3-447c-b918-b20ae586d72a",
+                    "suppressLeaveEvents": false,
+                    "restore": true,
+                    "uuid": "user_384185c8-8072-49a9-a05a-e085a1109b88@fd90a7c5-1755-4b78-9f78-d55c1addf19d",
+                    "presenceTimeout": 62,
+                    "useRandomIVs": false,
+                    "cipherKey": "k:9ZNEp!a-H-A=1&mEL]Raw]cqK)i1A7",
+                    "useRequestId": true,
+                    "subscribeKey": "sub-c-6649d8e8-46cf-11ea-aca8-a22e61d49bc9",
+                    "publishKey": "pub-c-866fa53f-beef-4a89-a2f4-db6179c2006f",
+                    "heartbeatInterval": 30
+                },
+                "legacyConfig": {
+                    "authKey": "47f88b9b-8cf3-447c-b918-b20ae586d72a",
+                    "suppressLeaveEvents": true,
+                    "uuid": "user_384185c8-8072-49a9-a05a-e085a1109b88@fd90a7c5-1755-4b78-9f78-d55c1addf19d",
+                    "presenceTimeout": 300,
+                    "useRandomIVs": false,
+                    "cipherKey": "RSEMaaRM9NVxXHr1SljAv4tP87myNeKW",
+                    "useRequestId": true,
+                    "subscribeKey": "sub-c-c5913f4e-d47f-11e3-8068-02ee2ddab7fe",
+                    "publishKey": "pub-c-783cd1ac-ffc0-4e61-91d4-947a337fe075",
+                    "heartbeatInterval": 0
+                }
+            },
+            "filestack": {
+                "apikey": "A3Z0poKHrTbKnpezbjvjcz",
+                "baseUrl": "s3.amazonaws.com",
+                "pickerOptions": {
+                    "uploadConfig": {
+                        "concurrency": 2,
+                        "partSize": 5242880,
+                        "retry": 5,
+                        "timeout": 240000
+                    },
+                    "uploadInBackground": false,
+                    "concurrency": 4,
+                    "storeTo": {
+                        "container": "au-org-echo360-alpprod-ap-southeast-filepicker",
+                        "region": "ap-southeast-2",
+                        "access": "private",
+                        "location": "s3"
+                    },
+                    "maxFiles": 30,
+                    "maxSize": 21474836480,
+                    "fromSources": [
+                        "local_file_system",
+                        "dropbox",
+                        "googledrive",
+                        "onedrive",
+                        "onedriveforbusiness",
+                        "box"
+                    ]
+                },
+                "protocol": "https"
+            },
+            "airbrake": {
+                "projectId": "98881",
+                "projectKey": "321e2ae26cf072bf06501010a06e3d1b",
+                "environment": "production"
+            },
+            "folders": {
+                "bucket": "org-echo360-alpprod-ap-southeast-folder"
+            },
+            "zoomUserMeeting": {
+                "canCreate": false
+            }
+        },
+        "name": "Kian Slagter",
+        "createdOn": "2023-01-11",
+        "email": "a1885138@adelaide.edu.au",
+        "currentRole": "Student",
+        "preference": {
+            "player": {
+                "closedCaption": {
+                    "contrast": "Light",
+                    "location": "Bottom",
+                    "size": "Medium",
+                    "visible": false
+                },
+                "transcript": {
+                    "visible": true
+                }
+            }
+        },
+        "privileges": [],
+        "institutions": [
+            {
+                "id": "fd90a7c5-1755-4b78-9f78-d55c1addf19d",
+                "name": "University of Adelaide",
+                "currentUserRoles": [
+                    "Student"
+                ]
+            },
+            {
+                "id": "5e629a95-8d89-424f-b6df-7a2de31f1912",
+                "name": "UofA-UAT",
+                "currentUserRoles": [
+                    "Student"
+                ]
+            }
+        ],
+        "isLtiSession": true,
+        "lastName": "Slagter",
+        "firstName": "Kian",
+        "id": "384185c8-8072-49a9-a05a-e085a1109b88",
+        "timeZoneId": "Australia/Adelaide",
+        "status": "Active",
+        "currentInstitutionRoles": [
+            "Student"
+        ],
+        "eulaVersion": 0,
+        "timeZoneOffsetMinutes": 570,
+        "currentInstitution": {
+            "name": "University of Adelaide",
+            "isLmsApiConfigured": false,
+            "id": "fd90a7c5-1755-4b78-9f78-d55c1addf19d",
+            "iconImageUrl": "https://images.echo360.net.au/fd90a7c5-1755-4b78-9f78-d55c1addf19d/bbyMMCtyTgKz60IUNJGw_UofA%20Logo%20Resized.png",
+            "toggles": [
+                {
+                    "name": "hideUncaptionedVideo",
+                    "enabled": false
+                },
+                {
+                    "name": "ucTeachingAssistantClassroomLogin",
+                    "enabled": false
+                },
+                {
+                    "name": "accessLinks",
+                    "enabled": true
+                },
+                {
+                    "name": "ltiOrganizationMapping",
+                    "enabled": false
+                },
+                {
+                    "name": "schedulerInstitutionExports",
+                    "enabled": true
+                },
+                {
+                    "name": "browserCaptureUi",
+                    "enabled": true
+                },
+                {
+                    "name": "smsActivities",
+                    "enabled": true
+                },
+                {
+                    "name": "coinstructorEditMedia",
+                    "enabled": true
+                },
+                {
+                    "name": "zoomUserDefaultOptOutState",
+                    "enabled": false
+                },
+                {
+                    "name": "createCopyCourseContentStudent",
+                    "enabled": false
+                },
+                {
+                    "name": "studentLibraryTranscriptEditor",
+                    "enabled": false
+                },
+                {
+                    "name": "zoomMeetingVisibilityState",
+                    "enabled": false
+                },
+                {
+                    "name": "instructorSectionCloning",
+                    "enabled": false
+                },
+                {
+                    "name": "requestTranscriptions",
+                    "enabled": true
+                },
+                {
+                    "name": "ltiNewProvisioningUi",
+                    "enabled": true
+                },
+                {
+                    "name": "webEx",
+                    "enabled": true
+                },
+                {
+                    "name": "ucCloudUi",
+                    "enabled": true
+                },
+                {
+                    "name": "ltiGradebook",
+                    "enabled": false
+                },
+                {
+                    "name": "schedulerUploadContent",
+                    "enabled": true
+                },
+                {
+                    "name": "instructorCaptureUnpublish",
+                    "enabled": false
+                },
+                {
+                    "name": "canvasDataApiIntegration",
+                    "enabled": false
+                },
+                {
+                    "name": "sharedContentDownloads",
+                    "enabled": true
+                },
+                {
+                    "name": "ltiBlockedRoles",
+                    "enabled": false
+                },
+                {
+                    "name": "publicLinks",
+                    "enabled": true
+                },
+                {
+                    "name": "editableEmail",
+                    "enabled": false
+                },
+                {
+                    "name": "chaptering",
+                    "enabled": false
+                },
+                {
+                    "name": "schedulerCollectionAccess",
+                    "enabled": true
+                },
+                {
+                    "name": "studentLibrary",
+                    "enabled": true
+                },
+                {
+                    "name": "instructorManageEnrollment",
+                    "enabled": false
+                },
+                {
+                    "name": "outOfTermContentAccess",
+                    "enabled": true
+                },
+                {
+                    "name": "createCopyCourseContentInstructor",
+                    "enabled": false
+                },
+                {
+                    "name": "time24Hour",
+                    "enabled": false
+                },
+                {
+                    "name": "ucInstructorCancelScheduledCaptures",
+                    "enabled": false
+                },
+                {
+                    "name": "instructorCaptureDeletion",
+                    "enabled": false
+                },
+                {
+                    "name": "requestCaptions",
+                    "enabled": false
+                },
+                {
+                    "name": "advancedCaptionConfigurationWIP",
+                    "enabled": false
+                },
+                {
+                    "name": "enableNewConfigurationPages",
+                    "enabled": true
+                },
+                {
+                    "name": "emails",
+                    "enabled": false
+                },
+                {
+                    "name": "webExMapping",
+                    "enabled": true
+                },
+                {
+                    "name": "h5pSupportEnabled",
+                    "enabled": true
+                },
+                {
+                    "name": "webExUserDefaultOptOutState",
+                    "enabled": false
+                },
+                {
+                    "name": "deviceCertificateOverride",
+                    "enabled": false
+                },
+                {
+                    "name": "instantCapture",
+                    "enabled": true
+                },
+                {
+                    "name": "ltiSimplifiedCanvasCourseName",
+                    "enabled": false
+                },
+                {
+                    "name": "ltiCourseSectionAutoProvisioning",
+                    "enabled": false
+                },
+                {
+                    "name": "instructorEditSectionName",
+                    "enabled": false
+                },
+                {
+                    "name": "pendo",
+                    "enabled": true
+                },
+                {
+                    "name": "schedulerCreateTerms",
+                    "enabled": true
+                },
+                {
+                    "name": "teachingAssistantCanManageGroups",
+                    "enabled": true
+                },
+                {
+                    "name": "ucSoftwareDesktopUiInAppAuth",
+                    "enabled": false
+                },
+                {
+                    "name": "enforceTLS12Plus",
+                    "enabled": false
+                },
+                {
+                    "name": "studentCanManageGroups",
+                    "enabled": false
+                },
+                {
+                    "name": "verbitCaptioning",
+                    "enabled": true
+                },
+                {
+                    "name": "zoomDisableTranscripts",
+                    "enabled": false
+                },
+                {
+                    "name": "delegatedAdmin",
+                    "enabled": true
+                },
+                {
+                    "name": "studentPublishedTranscriptEditor",
+                    "enabled": false
+                },
+                {
+                    "name": "echoPlayerV2Toggle",
+                    "enabled": true
+                },
+                {
+                    "name": "contentDownloads",
+                    "enabled": true
+                },
+                {
+                    "name": "instructorCanManageGroups",
+                    "enabled": true
+                },
+                {
+                    "name": "upload360Video",
+                    "enabled": true
+                },
+                {
+                    "name": "playlistWIP",
+                    "enabled": true
+                },
+                {
+                    "name": "ltiAlternateUserId",
+                    "enabled": false
+                },
+                {
+                    "name": "publicLinksForStudents",
+                    "enabled": false
+                },
+                {
+                    "name": "schedulerDeviceAccess",
+                    "enabled": true
+                },
+                {
+                    "name": "ucTeachingAssistantDownload",
+                    "enabled": false
+                },
+                {
+                    "name": "captions",
+                    "enabled": true
+                },
+                {
+                    "name": "sidebarDefaultOnToggle",
+                    "enabled": true
+                },
+                {
+                    "name": "ltiCreateSection",
+                    "enabled": false
+                },
+                {
+                    "name": "zoomLtiPro",
+                    "enabled": false
+                },
+                {
+                    "name": "v2PlayerForClassroomLive",
+                    "enabled": false
+                },
+                {
+                    "name": "discussions",
+                    "enabled": true
+                },
+                {
+                    "name": "requestTranscriptionsForAllMedia",
+                    "enabled": true
+                },
+                {
+                    "name": "ucStopSoftwareCaptureOnDisconnect",
+                    "enabled": false
+                },
+                {
+                    "name": "ltiAdvantageSupport",
+                    "enabled": true
+                },
+                {
+                    "name": "notifications",
+                    "enabled": true
+                },
+                {
+                    "name": "transcriptLanguageDetection",
+                    "enabled": false
+                },
+                {
+                    "name": "createCopySharedContent",
+                    "enabled": true
+                },
+                {
+                    "name": "mediaEditorWIP",
+                    "enabled": false
+                },
+                {
+                    "name": "studentApplyTranscriptToCaption",
+                    "enabled": false
+                },
+                {
+                    "name": "ltiLimitSectionSelection",
+                    "enabled": false
+                },
+                {
+                    "name": "delegatedAdminCaptureHierarchy",
+                    "enabled": false
+                },
+                {
+                    "name": "delegatedAdminShowAllPublished",
+                    "enabled": false
+                },
+                {
+                    "name": "delegatedAdminDeleteUsers",
+                    "enabled": true
+                },
+                {
+                    "name": "uc4ChannelBeta",
+                    "enabled": false
+                },
+                {
+                    "name": "delegatedAdminDeviceAccess",
+                    "enabled": true
+                },
+                {
+                    "name": "ucStudentClassroomLogin",
+                    "enabled": false
+                },
+                {
+                    "name": "h5pLinks",
+                    "enabled": false
+                },
+                {
+                    "name": "outOfTermContentDownloads",
+                    "enabled": true
+                },
+                {
+                    "name": "studentUcDownload",
+                    "enabled": true
+                },
+                {
+                    "name": "delegatedAdminCreateTerms",
+                    "enabled": true
+                },
+                {
+                    "name": "delegatedAdminInstitutionExports",
+                    "enabled": true
+                },
+                {
+                    "name": "schedulerDeleteTerms",
+                    "enabled": true
+                },
+                {
+                    "name": "captionAllInstantCaptures",
+                    "enabled": false
+                },
+                {
+                    "name": "publicLinksForInstructors",
+                    "enabled": true
+                },
+                {
+                    "name": "ltiAutoTermSelection",
+                    "enabled": false
+                },
+                {
+                    "name": "schedulerDeleteSections",
+                    "enabled": true
+                },
+                {
+                    "name": "delegatedAdminCreateUsers",
+                    "enabled": true
+                },
+                {
+                    "name": "delegatedAdminShowUnpublished",
+                    "enabled": false
+                },
+                {
+                    "name": "folders",
+                    "enabled": false
+                },
+                {
+                    "name": "delegatedAdminConfigurationAccess",
+                    "enabled": true
+                },
+                {
+                    "name": "audioDownloadsOnly",
+                    "enabled": false
+                },
+                {
+                    "name": "schedulerDeleteCourses",
+                    "enabled": true
+                },
+                {
+                    "name": "publicLinkIndexable",
+                    "enabled": false
+                }
+            ]
+        },
+        "timeZone": "(+09:30) Australia/Adelaide",
+        "userPermissions": {}
+    },
+    "title": "2024-07-30 09:10:00 (LEC) / G60 Bragg Lecture Theatre / The Braggs",
+    "video": {
+        "disableAutoBandwidth": false,
+        "duration": "PT3015.068S",
+        "mediaId": "862d0511-4118-45e3-a75e-c08819401a65",
+        "playableMedias": [
+            {
+                "isHls": true,
+                "isLive": false,
+                "quality": [
+                    0,
+                    1
+                ],
+                "sourceIndex": 0,
+                "trackType": [
+                    "Audio"
+                ],
+                "uri": "https://content.echo360.net.au/0000.fd90a7c5-1755-4b78-9f78-d55c1addf19d/862d0511-4118-45e3-a75e-c08819401a65/1/s0_a.m3u8?x-uid=384185c8-8072-49a9-a05a-e085a1109b88&x-instid=fd90a7c5-1755-4b78-9f78-d55c1addf19d&x-oid=bfc2bb62-d4e2-48f7-884c-8a7e71124edc&x-lid=G_ccac0048-9589-4882-8c7f-6d7bf3759114_401e0abf-0a74-41d7-ab39-047f7e9c81f9_2024-07-30T09%3A10%3A00.000_2024-07-30T10%3A00%3A00.000&x-sid=401e0abf-0a74-41d7-ab39-047f7e9c81f9&x-mid=862d0511-4118-45e3-a75e-c08819401a65&x-act=videoView&x-src=desktop"
+            },
+            {
+                "isHls": true,
+                "isLive": false,
+                "quality": [
+                    0,
+                    1
+                ],
+                "sourceIndex": 1,
+                "trackType": [
+                    "Video"
+                ],
+                "uri": "https://content.echo360.net.au/0000.fd90a7c5-1755-4b78-9f78-d55c1addf19d/862d0511-4118-45e3-a75e-c08819401a65/1/s1_v.m3u8?x-uid=384185c8-8072-49a9-a05a-e085a1109b88&x-instid=fd90a7c5-1755-4b78-9f78-d55c1addf19d&x-oid=bfc2bb62-d4e2-48f7-884c-8a7e71124edc&x-lid=G_ccac0048-9589-4882-8c7f-6d7bf3759114_401e0abf-0a74-41d7-ab39-047f7e9c81f9_2024-07-30T09%3A10%3A00.000_2024-07-30T10%3A00%3A00.000&x-sid=401e0abf-0a74-41d7-ab39-047f7e9c81f9&x-mid=862d0511-4118-45e3-a75e-c08819401a65&x-act=videoView&x-src=desktop"
+            },
+            {
+                "isHls": true,
+                "isLive": false,
+                "quality": [
+                    0,
+                    1
+                ],
+                "sourceIndex": 1,
+                "trackType": [
+                    "Audio",
+                    "Video"
+                ],
+                "uri": "https://content.echo360.net.au/0000.fd90a7c5-1755-4b78-9f78-d55c1addf19d/862d0511-4118-45e3-a75e-c08819401a65/1/s1_av.m3u8?x-uid=384185c8-8072-49a9-a05a-e085a1109b88&x-instid=fd90a7c5-1755-4b78-9f78-d55c1addf19d&x-oid=bfc2bb62-d4e2-48f7-884c-8a7e71124edc&x-lid=G_ccac0048-9589-4882-8c7f-6d7bf3759114_401e0abf-0a74-41d7-ab39-047f7e9c81f9_2024-07-30T09%3A10%3A00.000_2024-07-30T10%3A00%3A00.000&x-sid=401e0abf-0a74-41d7-ab39-047f7e9c81f9&x-mid=862d0511-4118-45e3-a75e-c08819401a65&x-act=videoView&x-src=desktop"
+            }
+        ],
+        "posterMedia": [
+            {
+                "sourceIndex": 1,
+                "uri": "https://thumbnails.echo360.net.au/0000.fd90a7c5-1755-4b78-9f78-d55c1addf19d/862d0511-4118-45e3-a75e-c08819401a65/1/poster1.jpg"
+            }
+        ],
+        "thumbnailMedia": [
+            {
+                "baseUri": "https://thumbnails.echo360.net.au/0000.fd90a7c5-1755-4b78-9f78-d55c1addf19d/862d0511-4118-45e3-a75e-c08819401a65/1/thumbnails1",
+                "extension": "jpg",
+                "sourceIndex": 1,
+                "timesInSeconds": [
+                    10,
+                    70,
+                    130,
+                    190,
+                    250,
+                    310,
+                    370,
+                    430,
+                    490,
+                    550,
+                    610,
+                    670,
+                    730,
+                    790,
+                    850,
+                    910,
+                    970,
+                    1030,
+                    1090,
+                    1150,
+                    1210,
+                    1270,
+                    1330,
+                    1390,
+                    1450,
+                    1510,
+                    1570,
+                    1630,
+                    1690,
+                    1750,
+                    1810,
+                    1870,
+                    1930,
+                    1990,
+                    2050,
+                    2110,
+                    2170,
+                    2230,
+                    2290,
+                    2350,
+                    2410,
+                    2470,
+                    2530,
+                    2590,
+                    2650,
+                    2710,
+                    2770,
+                    2830,
+                    2890,
+                    2950
+                ]
+            }
+        ],
+        "liveTimeAvailable": false
+    },
+    "sessionId": "999fa6ab-4307-4bdf-8bc4-a5be9df37c16",
+    "renderId": "r6e79cf0d-ef03-49a4-8fd5-583e73572792",
+    "sessionDurationSecondsHard": -1,
+    "sessionDurationSecondsSoft": -1,
+    "showHeader": false
+}

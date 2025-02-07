@@ -6,7 +6,16 @@
   "background": {
     "service_worker": "background.js"
   },
-  "permissions": ["sidePanel"],
+  "permissions": [
+    "sidePanel",
+    "cookies",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://myuni.adelaide.edu.au/*",
+    "https://echo360.net.au/*",
+    "https://*.echo360.net.au/*"
+  ],
   "side_panel": {
     "default_path": "sidepanel/index.html"
   },
@@ -18,5 +27,15 @@
       "128": "images/icon128.png"
     },
     "default_title": "Open Chat Interface"
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://myuni.adelaide.edu.au/*",
+        "https://echo360.net.au/*",
+        "https://*.echo360.net.au/*"
+      ],
+      "js": ["content.js"]
+    }
+  ]
 }
