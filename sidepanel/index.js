@@ -180,7 +180,7 @@ fetchTranscriptButton.addEventListener('click', async () => {
     showLoading();
     
     // Send message to content script to find Echo Player props
-    const response = await chrome.tabs.sendMessage(tab.id, { action: 'findEchoPlayerProps' });
+    const response = await chrome.tabs.sendMessage(tab.id, { action: 'findEchoPlayerData' });
     
     if (!response) {
       showError('Could not find Echo360 player on this page. Please make sure you are on a lecture page.');
