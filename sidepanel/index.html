@@ -18,9 +18,6 @@
       />
       <button id="save-api-key" class="secondary compact-button">Save</button>
     </div>
-    <div class="echo360-section">
-      <button id="fetch-transcript" class="primary">Fetch Transcript</button>
-    </div>
     <textarea
       id="input-prompt"
       placeholder="Type something here to summarise..."
@@ -28,6 +25,10 @@
       rows="5"
       hidden
     ></textarea>
+    <br>
+    <div id="guide" class="text" style="margin-bottom: 16px;">
+      Please navigate to: <a href="https://echo360.net.au/" target="_blank">https://echo360.net.au/</a> in order to generate a lecture summary.
+    </div>
     <button id="button-prompt" class="primary" disabled>Run</button>
     <div id="transcript-success" class="text" hidden>Transcript fetched successfully</div>
     <br>

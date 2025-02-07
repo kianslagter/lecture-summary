@@ -33,16 +33,10 @@ const saveApiKeyButton = document.body.querySelector('#save-api-key');
 const apiKeyToggle = document.body.querySelector('#api-key-toggle');
 const apiKeySection = document.body.querySelector('.api-key-section');
 
-const lessonIdInput = document.body.querySelector('#lesson-id');
-const mediaIdInput = document.body.querySelector('#media-id');
-const fetchTranscriptButton = document.body.querySelector('#fetch-transcript');
-
-// Add this line to select the success message element
-const elementTranscriptSuccess = document.body.querySelector('#transcript-success');
 
 // Add new element reference at the top with other element declarations
 const elementApiKeyMessage = document.body.querySelector('#api-key-message');
-let isTranscriptFetched = false;
+const elementGuide = document.body.querySelector('#guide');
 
 // Set initial text content
 apiKeyToggle.textContent = apiKeySection.classList.contains('collapsed') 
@@ -65,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     elementApiKeyMessage.hidden = true;
   }
   updateRunButtonState();
+  updateGuideVisibility();
 });
 
 // Save API key
@@ -84,12 +79,10 @@ saveApiKeyButton.addEventListener('click', () => {
 // Add new function to check and update run button state
 function updateRunButtonState() {
   const hasApiKey = !!localStorage.getItem('gemini_api_key');
-  buttonPrompt.disabled = !(hasApiKey && isTranscriptFetched);
+  buttonPrompt.disabled = !(hasApiKey);
   
   if (!hasApiKey) {
     showError('API key is required');
-  } else if (!isTranscriptFetched) {
-    showError('Please fetch a transcript first');
   } else {
     elementError.hidden = true;
   }
@@ -152,70 +145,43 @@ buttonPrompt.addEventListener('click', async () => {
     showError('API key is required');
     return;
   }
-  if (!isTranscriptFetched) {
-    showError('Please fetch a transcript first');
-    return;
-  }
-  
+
   const prompt = inputPrompt.value.trim();
   showLoading();
-  try {
-    initModel(generationConfig);
-    const response = await runPrompt(prompt, generationConfig);
-    showResponse(response);
-  } catch (e) {
-    showError(e);
-  }
-});
 
-// Update the fetch transcript button event listener
-fetchTranscriptButton.addEventListener('click', async () => {
   try {
-    console.log('Fetch transcript button clicked');
-    
     // Get current tab to check if we're on Echo360
     const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
     
     if (!tabs || tabs.length === 0) {
-      console.error('No active tab found');
-      showError('Could not access current tab');
-      return;
+      throw new Error('No active tab found');
     }
     
     const tab = tabs[0];
     
     if (!tab.url.includes('echo360.net.au') && !tab.url.includes('myuni.adelaide.edu.au')) {
-      showError('Please navigate to an Echo360 lecture page first');
-      return;
+      throw new Error('Please navigate to an Echo360 lecture page first');
     }
-    
-    showLoading();
     
     // Send message to content script to find Echo Player props
     const response = await chrome.tabs.sendMessage(tab.id, { action: 'findEchoPlayerData' });
     
     if (!response) {
-      showError('Could not find Echo360 player on this page. Please make sure you are on a lecture page.');
-      return;
+      throw new Error('Could not find Echo360 player on this page. Please make sure you are on a lecture page.');
     }
     
     const bearerToken = await getBearerToken();
-    
     const transcript = await fetchTranscript(response.lessonId, response.mediaId, bearerToken);
-    console.log('Transcript received, length:', transcript?.length);
     
-    inputPrompt.value = "As a professional summarizer, create a concise and comprehensive summary of the provided text, which is an audio transcript of an academic lecture, while adhering to these guidelines: 1. Craft a summary that is detailed, thorough, in-depth, and complex, while maintaining clarity and conciseness. 2. Incorporate all main ideas and all initial information provided and ensuring ease of understanding. 3. Rely strictly on the provided text, without including external information. 4. Format the summary in sections for a note-taking form for easy understanding. By following these optimized prompts, you will generate an effective summary that encapsulates the essence of the given text in a clear, concise, and reader-friendly manner. Please follow these instructions for the following text:" + transcript;
-    
-    // Update transcript fetched state
-    isTranscriptFetched = true;
-    elementTranscriptSuccess.hidden = false;
-    hide(elementLoading);
-    updateRunButtonState();
-  } catch (error) {
-    console.error('Fetch transcript error:', error);
-    showError(error.message);
-    isTranscriptFetched = false;
-    updateRunButtonState();
+    // Update the prompt with the transcript
+    const fullPrompt = "As a professional summarizer, create a concise and comprehensive summary of the provided text, which is an audio transcript of an academic lecture, while adhering to these guidelines: 1. Craft a summary that is detailed, thorough, in-depth, and complex, while maintaining clarity and conciseness. 2. Incorporate all main ideas and all initial information provided and ensuring ease of understanding. 3. Rely strictly on the provided text, without including external information. 4. Format the summary in sections for a note-taking form for easy understanding, please use double asterisks like '**this**' for bold text, and use single asteriks '* this' for dot points. By following these optimized prompts, you will generate an effective summary that encapsulates the essence of the given text in a clear, concise, and reader-friendly manner. Please follow these instructions for the following text:" + transcript;
+
+    // Initialize model and run the prompt
+    initModel(generationConfig);
+    const aiResponse = await runPrompt(fullPrompt, generationConfig);
+    showResponse(aiResponse);
+  } catch (e) {
+    showError(e.message || e);
   }
 });
 
@@ -329,3 +295,29 @@ function buildEcho360URL(lessonId, mediaId) {
   const baseURL = 'https://echo360.net.au/api/ui/echoplayer/lessons/';
   return `${baseURL}${lessonId}/medias/${mediaId}/transcript-file?format=text`;
 }
+
+async function updateGuideVisibility() {
+  const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (!tabs || tabs.length === 0) {
+    show(elementGuide);
+    return;
+  }
+  
+  const tab = tabs[0];
+  if (!tab.url.includes('echo360.net.au')) {
+    show(elementGuide);
+  } else {
+    hide(elementGuide);
+  }
+}
+
+// Add this new event listener
+chrome.tabs.onActivated.addListener(() => {
+  updateGuideVisibility();
+});
+
+chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
+  if (changeInfo.url) {
+    updateGuideVisibility();
+  }
+});
