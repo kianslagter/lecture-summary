@@ -27,8 +27,6 @@ const buttonPrompt = document.body.querySelector('#button-prompt');
 const elementResponse = document.body.querySelector('#response');
 const elementLoading = document.body.querySelector('#loading');
 const elementError = document.body.querySelector('#error');
-const sliderTemperature = document.body.querySelector('#temperature');
-const labelTemperature = document.body.querySelector('#label-temperature');
 const apiKeyInput = document.body.querySelector('#api-key');
 const saveApiKeyButton = document.body.querySelector('#save-api-key');
 
@@ -118,11 +116,6 @@ async function runPrompt(prompt) {
   }
 }
 
-sliderTemperature.addEventListener('input', (event) => {
-  labelTemperature.textContent = event.target.value;
-  generationConfig.temperature = event.target.value;
-});
-
 inputPrompt.addEventListener('input', () => {
   if (inputPrompt.value.trim()) {
     buttonPrompt.removeAttribute('disabled');
@@ -135,9 +128,6 @@ buttonPrompt.addEventListener('click', async () => {
   const prompt = inputPrompt.value.trim();
   showLoading();
   try {
-    const generationConfig = {
-      temperature: sliderTemperature.value
-    };
     initModel(generationConfig);
     const response = await runPrompt(prompt, generationConfig);
     showResponse(response);
