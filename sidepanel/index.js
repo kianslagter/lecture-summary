@@ -141,13 +141,9 @@ inputPrompt.addEventListener('input', () => {
 });
 
 buttonPrompt.addEventListener('click', async () => {
-  if (!localStorage.getItem('gemini_api_key')) {
-    showError('API key is required');
-    return;
-  }
-
   const prompt = inputPrompt.value.trim();
   showLoading();
+  hide(elementGuide);
 
   try {
     // Get current tab to check if we're on Echo360
@@ -298,16 +294,26 @@ function buildEcho360URL(lessonId, mediaId) {
 
 async function updateGuideVisibility() {
   const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+  const guideElement = document.getElementById('guide');
+  const navigateMessage = document.getElementById('guide-navigate');
+  const readyMessage = document.getElementById('guide-ready');
+  
   if (!tabs || tabs.length === 0) {
-    show(elementGuide);
+    show(guideElement);
+    show(navigateMessage);
+    hide(readyMessage);
     return;
   }
   
   const tab = tabs[0];
   if (!tab.url.includes('echo360.net.au')) {
-    show(elementGuide);
+    show(guideElement);
+    show(navigateMessage);
+    hide(readyMessage);
   } else {
-    hide(elementGuide);
+    show(guideElement);
+    hide(navigateMessage);
+    show(readyMessage);
   }
 }
 
