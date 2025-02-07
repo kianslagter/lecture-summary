@@ -90,7 +90,7 @@ function initModel(generationConfig) {
   try {
     genAI = new GoogleGenerativeAI(apiKey);
     model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.0-flash',
       safetySettings,
       generationConfig
     });
@@ -189,7 +189,7 @@ fetchTranscriptButton.addEventListener('click', async () => {
 
     const transcript = await fetchTranscript(response.lessonId, response.mediaId, bearerToken);
     console.log('Transcript received, length:', transcript?.length);
-    inputPrompt.value = transcript;
+    inputPrompt.value = "As a professional summarizer, create a concise and comprehensive summary of the provided text, which is an audio transcript of an academic lecture, while adhering to these guidelines: 1. Craft a summary that is detailed, thorough, in-depth, and complex, while maintaining clarity and conciseness. 2. Incorporate all main ideas and all inital information provided and ensuring ease of understanding. 3. Rely strictly on the provided text, without including external information. 4. Format the summary in sections for a note taking form for easy understanding. By following this optimized prompt, you will generate an effective summary that encapsulates the essence of the given text in a clear, concise, and reader-friendly manner. Please follow these instructions for the following text:" + transcript;
     hide(elementLoading);
   } catch (error) {
     console.error('Fetch transcript error:', error);
