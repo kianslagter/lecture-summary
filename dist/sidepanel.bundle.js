@@ -1653,6 +1653,7 @@
     function showResponse(response) {
       hide(elementLoading);
       show(elementResponse);
+      console.log(response);
       
       // Create a new tab with the response
       const encodedResponse = encodeURIComponent(response);
