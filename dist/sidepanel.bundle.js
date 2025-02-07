@@ -1653,19 +1653,23 @@
     function showResponse(response) {
       hide(elementLoading);
       show(elementResponse);
-      // Make sure to preserve line breaks in the response
-      elementResponse.textContent = '';
-      const paragraphs = response.split(/\r?\n/);
-      for (let i = 0; i < paragraphs.length; i++) {
-        const paragraph = paragraphs[i];
-        if (paragraph) {
-          elementResponse.appendChild(document.createTextNode(paragraph));
-        }
-        // Don't add a new line after the final paragraph
-        if (i < paragraphs.length - 1) {
-          elementResponse.appendChild(document.createElement('BR'));
-        }
-      }
+      
+      // Create a new tab with the response
+      const encodedResponse = encodeURIComponent(response);
+      chrome.tabs.create({
+        url: chrome.runtime.getURL(`response.html?response=${encodedResponse}`)
+      });
+      
+      // Show success message with link
+      elementResponse.innerHTML = 'Response Generated Successfully! <a href="#" id="view-response">View here</a>';
+      
+      // Add click handler for the link
+      document.getElementById('view-response').addEventListener('click', (e) => {
+        e.preventDefault();
+        chrome.tabs.create({
+          url: chrome.runtime.getURL(`response.html?response=${encodedResponse}`)
+        });
+      });
     }
 
     function showError(error) {

@@ -9,13 +9,18 @@
   "permissions": [
     "sidePanel",
     "cookies",
-    "tabs"
+    "tabs",
+    "scripting"
   ],
   "host_permissions": [
     "https://myuni.adelaide.edu.au/*",
     "https://echo360.net.au/*",
     "https://*.echo360.net.au/*"
   ],
+  "web_accessible_resources": [{
+    "resources": ["response.html", "response.js"],
+    "matches": ["<all_urls>"]
+  }],
   "side_panel": {
     "default_path": "sidepanel/index.html"
   },
