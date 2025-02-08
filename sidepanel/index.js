@@ -70,6 +70,15 @@ saveApiKeyButton.addEventListener('click', () => {
     initModel(generationConfig);
     elementApiKeyMessage.hidden = true;
     updateRunButtonState();
+    
+    // Show success message
+    elementError.textContent = 'API key updated successfully!';
+    elementError.hidden = false;
+    
+    // Hide the success message after a few seconds
+    setTimeout(() => {
+      elementError.hidden = true;
+    }, 3000);
   } else {
     elementError.textContent = 'API key required, you can create one here: https://aistudio.google.com/app/apikey';
     elementError.hidden = false;
@@ -170,7 +179,8 @@ buttonPrompt.addEventListener('click', async () => {
     const transcript = await fetchTranscript(response.lessonId, response.mediaId, bearerToken);
     
     // Update the prompt with the transcript
-    const fullPrompt = "As a professional summarizer, create a concise and comprehensive summary of the provided text, which is an audio transcript of an academic lecture, while adhering to these guidelines: 1. Craft a summary that is detailed, thorough, in-depth, and complex, while maintaining clarity and conciseness. 2. Incorporate all main ideas and all initial information provided and ensuring ease of understanding. 3. Rely strictly on the provided text, without including external information. 4. Format the summary in sections for a note-taking form for easy understanding, please use double asterisks like '**this**' for bold text, and use single asteriks '* this' for dot points. By following these optimized prompts, you will generate an effective summary that encapsulates the essence of the given text in a clear, concise, and reader-friendly manner. Please follow these instructions for the following text:" + transcript;
+    const fullPrompt = "As a professional summarizer, create a concise and comprehensive summary of the provided text, which is an audio transcript of an academic lecture, while adhering to these guidelines: 1. Craft a summary that is detailed, thorough, in-depth, and complex, while maintaining clarity and conciseness. 2. Incorporate all main ideas and all initial information provided and ensuring ease of understanding. 3. Rely strictly on the provided text, without including external information. 4. Format the summary using standard CommonMark Spec markdown styling, and in sections for a note-taking form for easy understanding. By following these optimized prompts, you will generate an effective summary that encapsulates the essence of the given text in a clear, concise, and reader-friendly manner. Please follow these instructions for the following text:" + transcript;
+
 
     // Initialize model and run the prompt
     initModel(generationConfig);
@@ -298,6 +308,13 @@ async function updateGuideVisibility() {
   const navigateMessage = document.getElementById('guide-navigate');
   const readyMessage = document.getElementById('guide-ready');
   
+  const hasApiKey = !!localStorage.getItem('gemini_api_key');
+
+  if (!hasApiKey) {
+    hide(guideElement);
+    return;
+  }
+
   if (!tabs || tabs.length === 0) {
     show(guideElement);
     show(navigateMessage);
