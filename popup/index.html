@@ -2,6 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="index.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
       body {
         width: 300px;
@@ -12,7 +13,10 @@
   </head>
   <body>
     <h1>Lecture Summariser</h1>
-    <button class="theme-toggle" id="theme-toggle">🌓</button>
+    <button class="theme-toggle" id="theme-toggle">
+      <i class="material-icons light-icon">light_mode</i>
+      <i class="material-icons dark-icon">dark_mode</i>
+    </button>
     <div id="api-key-message" class="text" style="margin-bottom: 16px;">
       API key required, you can create one here: <a href="https://aistudio.google.com/app/apikey" target="_blank">https://aistudio.google.com/app/apikey</a>
     </div>

@@ -70,15 +70,31 @@
         cursor: pointer;
         color: var(--text-color);
       }
+      .theme-toggle i {
+        font-size: 24px;
+        vertical-align: middle;
+      }
+      [data-theme="dark"] .light-icon,
+      [data-theme="light"] .dark-icon {
+        display: none;
+      }
+      [data-theme="dark"] .dark-icon,
+      [data-theme="light"] .light-icon {
+        display: inline-block;
+      }
     </style>
     <script src="node_modules/showdown/dist/showdown.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
   <body>
     <h1>Lecture Summary</h1>
     <div class="summary" id="summary-content"></div>
     <hr>
     <p>Made by <a href="https://github.com/kianslagter">Kian Slagter</a></p>
-    <button class="theme-toggle" id="theme-toggle">🌓</button>
+    <button class="theme-toggle" id="theme-toggle" type="button">
+      <i class="material-icons light-icon">light_mode</i>
+      <i class="material-icons dark-icon">dark_mode</i>
+    </button>
     <script src="response.js"></script>
   </body>
 </html> 
