@@ -2,7 +2,7 @@ import {
   GoogleGenerativeAI,
   HarmBlockThreshold,
   HarmCategory
-} from '../node_modules/@google/generative-ai/dist/index.mjs';
+} from '@google/generative-ai';
 
 // Important! Do not expose your API in your extension code. You have to
 // options:
