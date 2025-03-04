@@ -174,8 +174,14 @@ h1 {
 }
 
 .title {
-  width: 100%;
-  white-space: pre-line;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  font-size: clamp(2rem, 5vw, 2rem);
+  line-height: 1.2;
   margin-bottom: 1rem;
+}
+
+.title-line {
+  display: block;
 }
