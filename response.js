@@ -14,16 +14,10 @@ function stripMarkdown(text) {
 document.addEventListener('DOMContentLoaded', () => {
   // Store the original markdown
   let originalMarkdown = '';
-  
-  // Get the markdown from URL parameter
-  const urlParams = new URLSearchParams(window.location.search);
   let response = '';
-  try {
-    response = decodeURIComponent(urlParams.get('response'));
-  } catch (error) {
-    console.error('Failed to decode URL parameter:', error);
-    response = urlParams.get('response') || ''; // Fallback to raw value if decode fails
-  }
+  
+  // Get the response from localStorage instead of URL parameter
+  response = localStorage.getItem('lecture_summary') || '';
   
   if (response) {
     originalMarkdown = response;
@@ -37,6 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Set the HTML content
     summaryContent.innerHTML = html;
+    
+    // Clear localStorage after use to avoid keeping large data in memory
+    // Uncomment this if you want to clear the data after loading
+    // localStorage.removeItem('lecture_summary');
   }
 
   // Copy functionality
@@ -86,4 +84,4 @@ document.addEventListener('DOMContentLoaded', () => {
     themeToggle.querySelector('.light-icon').style.display = newTheme === 'dark' ? 'none' : 'inline-block';
     themeToggle.querySelector('.dark-icon').style.display = newTheme === 'dark' ? 'inline-block' : 'none';
   });
-}); 
+});

@@ -264,10 +264,12 @@ function showResponse(response) {
   show(elementResponse);
   console.log(response);
   
-  // Create a new tab with the response
-  const encodedResponse = encodeURIComponent(response);
+  // Store the response in localStorage instead of URL parameter
+  localStorage.setItem('lecture_summary', response);
+  
+  // Create a new tab with the response page (without the response in URL)
   chrome.tabs.create({
-    url: chrome.runtime.getURL(`response.html?response=${encodedResponse}`)
+    url: chrome.runtime.getURL('response.html')
   });
   
   // Show success message with link
@@ -277,7 +279,7 @@ function showResponse(response) {
   document.getElementById('view-response').addEventListener('click', (e) => {
     e.preventDefault();
     chrome.tabs.create({
-      url: chrome.runtime.getURL(`response.html?response=${encodedResponse}`)
+      url: chrome.runtime.getURL('response.html')
     });
   });
 }
