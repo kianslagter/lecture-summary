@@ -17,7 +17,7 @@
     "https://*.echo360.net.au/*"
   ],
   "web_accessible_resources": [{
-    "resources": ["response.html", "response.js"],
+    "resources": ["response.html", "response.js", "styles.css"],
     "matches": ["<all_urls>"]
   }],
   "action": {
@@ -27,7 +27,7 @@
       "48": "images/icon48.png",
       "128": "images/icon128.png"
     },
-    "default_title": "Open Chat Interface",
+    "default_title": "Lecture Summariser",
     "default_popup": "popup/index.html"
   },
   "content_scripts": [

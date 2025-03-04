@@ -112,7 +112,7 @@ textarea {
 .toggle-button {
   background: none;
   border: none;
-  color: #333;
+  color: var(--text-color);
   padding: 4px;
   margin: 4px 0;
   min-width: auto;
@@ -141,16 +141,17 @@ textarea {
 }
 
 .secondary {
-  background-color: #4a4a4a;
+  background-color: var(--border-color);
+  color: var(--bg-color);
 }
 
 .text a {
-  color: #333;
+  color: var(--text-color);
   text-decoration: underline;
 }
 
 .text a:hover {
-  color: #666;
+  color: var(--border-color);
 }
 
 .theme-toggle {
@@ -163,4 +164,11 @@ textarea {
   cursor: pointer;
   color: var(--text-color);
   z-index: 1000;
+}
+
+h1 {
+  color: var(--text-color);
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 10px;
+  font-size: 32px;
 }
