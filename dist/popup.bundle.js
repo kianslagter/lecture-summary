@@ -1500,6 +1500,13 @@
         console.log('Prompt failed');
         console.error(e);
         console.log('Prompt:', prompt);
+        
+        // Check if it's an invalid API key error
+        if (e.toString().includes('API key not valid') || 
+            e.toString().includes('API_KEY_INVALID')) {
+          throw new Error('Invalid API Key, please provide a valid key, you can create one here: https://aistudio.google.com/app/apikey');
+        }
+        
         throw e;
       }
     }
@@ -1532,23 +1539,30 @@
         }
         
         // Send message to content script to find Echo Player props
-        const response = await chrome.tabs.sendMessage(tab.id, { action: 'findEchoPlayerData' });
-        
-        if (!response) {
-          throw new Error('Could not find Echo360 player on this page. Please make sure you are on a lecture page.');
+        try {
+          const response = await chrome.tabs.sendMessage(tab.id, { action: 'findEchoPlayerData' });
+          
+          if (!response) {
+            throw new Error('Could not find Echo360 player on this page. Please make sure you are on a lecture page.');
+          }
+          
+          const bearerToken = await getBearerToken();
+          const transcript = await fetchTranscript(response.lessonId, response.mediaId, bearerToken);
+          
+          // Update the prompt with the transcript
+          const fullPrompt = "As a professional summarizer, create a concise and comprehensive summary of the provided text, which is an audio transcript of an academic lecture, while adhering to these guidelines: 1. Craft a summary that is detailed, thorough, in-depth, and complex, while maintaining clarity and conciseness. 2. Incorporate all main ideas and all initial information provided and ensuring ease of understanding. 3. Rely strictly on the provided text, without including external information. 4. Format the summary using standard CommonMark Spec markdown styling, but do not include the markdown prefix only raw markdown text, and ensure formatting is in sections for a note-taking form for easy understanding. By following these optimized prompts, you will generate an effective summary that encapsulates the essence of the given text in a clear, concise, and reader-friendly manner. Please follow these instructions for the following text:" + transcript;
+
+
+          // Initialize model and run the prompt
+          initModel(generationConfig);
+          const aiResponse = await runPrompt(fullPrompt, generationConfig);
+          showResponse(aiResponse);
+        } catch (error) {
+          if (error.message && error.message.includes("Receiving end does not exist")) {
+            throw new Error('Could not connect, please check your connection or refresh the page');
+          }
+          throw error;
         }
-        
-        const bearerToken = await getBearerToken();
-        const transcript = await fetchTranscript(response.lessonId, response.mediaId, bearerToken);
-        
-        // Update the prompt with the transcript
-        const fullPrompt = "As a professional summarizer, create a concise and comprehensive summary of the provided text, which is an audio transcript of an academic lecture, while adhering to these guidelines: 1. Craft a summary that is detailed, thorough, in-depth, and complex, while maintaining clarity and conciseness. 2. Incorporate all main ideas and all initial information provided and ensuring ease of understanding. 3. Rely strictly on the provided text, without including external information. 4. Format the summary using standard CommonMark Spec markdown styling, but do not include the markdown prefix only raw markdown text, and ensure formatting is in sections for a note-taking form for easy understanding. By following these optimized prompts, you will generate an effective summary that encapsulates the essence of the given text in a clear, concise, and reader-friendly manner. Please follow these instructions for the following text:" + transcript;
-
-
-        // Initialize model and run the prompt
-        initModel(generationConfig);
-        const aiResponse = await runPrompt(fullPrompt, generationConfig);
-        showResponse(aiResponse);
       } catch (e) {
         showError(e.message || e);
       }
@@ -1564,18 +1578,25 @@
           throw new Error('No active tab found');
         }
 
-        const response = await chrome.tabs.sendMessage(tabs[0].id, { 
-          action: 'getAuthToken'
-        });
-        
-        console.log('Token retrieved:', response?.token ? 'Yes' : 'No');
-        
-        if (!response || !response.token) {
-          console.error('No token found');
-          throw new Error('No Echo360 session found. Please log in to Echo360 first.');
+        try {
+          const response = await chrome.tabs.sendMessage(tabs[0].id, { 
+            action: 'getAuthToken'
+          });
+          
+          console.log('Token retrieved:', response?.token ? 'Yes' : 'No');
+          
+          if (!response || !response.token) {
+            console.error('No token found');
+            throw new Error('No Echo360 session found. Please log in to Echo360 first.');
+          }
+          
+          return response.token;
+        } catch (error) {
+          if (error.message && error.message.includes("Receiving end does not exist")) {
+            throw new Error('Could not connect, please check your connection or refresh the page');
+          }
+          throw error;
         }
-        
-        return response.token;
       } catch (error) {
         console.error('Error getting bearer token:', error);
         throw error;
