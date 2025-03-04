@@ -1,8 +1,32 @@
+// Function to strip markdown syntax
+function stripMarkdown(text) {
+  return text
+    .replace(/#{1,6}\s/g, '') // Remove headers
+    .replace(/\*\*/g, '')     // Remove bold
+    .replace(/\*/g, '')       // Remove italics
+    .replace(/`{3}.*?\n([\s\S]*?)`{3}/g, '$1') // Remove code blocks
+    .replace(/`([^`]+)`/g, '$1') // Remove inline code
+    .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1') // Replace links with just text
+    .replace(/^\s*[-+*]\s/gm, '') // Remove list markers
+    .replace(/^\s*\d+\.\s/gm, ''); // Remove numbered list markers
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  // Store the original markdown
+  let originalMarkdown = '';
+  
+  // Get the markdown from URL parameter
   const urlParams = new URLSearchParams(window.location.search);
-  const response = urlParams.get('response');
+  let response = '';
+  try {
+    response = decodeURIComponent(urlParams.get('response'));
+  } catch (error) {
+    console.error('Failed to decode URL parameter:', error);
+    response = urlParams.get('response') || ''; // Fallback to raw value if decode fails
+  }
   
   if (response) {
+    originalMarkdown = response;
     const summaryContent = document.getElementById('summary-content');
     
     // Initialize Showdown converter
@@ -14,6 +38,36 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set the HTML content
     summaryContent.innerHTML = html;
   }
+
+  // Copy functionality
+  const copyMarkdownBtn = document.getElementById('copy-markdown');
+  const copyRawBtn = document.getElementById('copy-raw');
+  const copyMarkdownSuccess = document.getElementById('copy-markdown-success');
+  const copyRawSuccess = document.getElementById('copy-raw-success');
+  const summaryContent = document.getElementById('summary-content');
+  
+  // Handle Copy Raw
+  copyRawBtn.addEventListener('click', () => {
+    const strippedText = stripMarkdown(response);
+    navigator.clipboard.writeText(strippedText).then(() => {
+      copyRawSuccess.classList.add('show');
+      setTimeout(() => {
+        copyRawSuccess.classList.remove('show');
+      }, 2000);
+    });
+  });
+  
+  // Handle Copy Markdown
+  copyMarkdownBtn.addEventListener('click', () => {
+    // Remove any markdown prefix if present
+    const markdownText = response.replace(/^markdown\s*:\s*/i, '');
+    navigator.clipboard.writeText(markdownText).then(() => {
+      copyMarkdownSuccess.classList.add('show');
+      setTimeout(() => {
+        copyMarkdownSuccess.classList.remove('show');
+      }, 2000);
+    });
+  });
 
   // Theme handling
   const themeToggle = document.getElementById('theme-toggle');

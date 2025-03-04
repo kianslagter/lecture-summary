@@ -2,95 +2,25 @@
 <html>
   <head>
     <title>Lecture Summary</title>
-    <style>
-      :root {
-        --bg-color: #ffffff;
-        --text-color: #333;
-        --summary-bg: white;
-        --border-color: #333;
-      }
-      
-      [data-theme="dark"] {
-        --bg-color: #1a1a1a;
-        --text-color: #e0e0e0;
-        --summary-bg: #2d2d2d;
-        --border-color: #666;
-      }
-      
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-          Arial, sans-serif;
-        line-height: 1.8;
-        color: var(--text-color);
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
-        font-size: 18px;
-        background-color: var(--bg-color);
-      }
-      .summary {
-        background-color: var(--summary-bg);
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      }
-      h1 {
-        color: var(--text-color);
-        border-bottom: 2px solid var(--border-color);
-        padding-bottom: 10px;
-        font-size: 32px;
-      }
-      strong {
-        font-weight: 600;
-      }
-      ul {
-        margin: 10px 0;
-        padding-left: 30px;
-      }
-      li {
-        margin: 8px 0;
-      }
-      p {
-        margin: 16px 0;
-      }
-      ul ul {
-        margin-top: 0;
-        margin-bottom: 0;
-      }
-      ul ul li {
-        margin-left: -20px;
-      }
-      .theme-toggle {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: none;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-        color: var(--text-color);
-      }
-      .theme-toggle i {
-        font-size: 24px;
-        vertical-align: middle;
-      }
-      [data-theme="dark"] .light-icon,
-      [data-theme="light"] .dark-icon {
-        display: none;
-      }
-      [data-theme="dark"] .dark-icon,
-      [data-theme="light"] .light-icon {
-        display: inline-block;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="response.css">
     <script src="node_modules/showdown/dist/showdown.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
   <body>
     <h1>Lecture Summary</h1>
+    <div class="copy-buttons">
+      <button class="copy-button" id="copy-raw">
+        <i class="material-icons">content_copy</i> Copy Raw Text
+        <span class="copy-success" id="copy-raw-success">Copied!</span>
+      </button>
+      <button class="copy-button" id="copy-markdown">
+        <i class="material-icons">text_format</i> Copy Markdown
+        <span class="copy-success" id="copy-markdown-success">Copied!</span>
+      </button>
+    </div>
     <div class="summary" id="summary-content"></div>
     <hr>
-    <p>Made by <a href="https://github.com/kianslagter">Kian Slagter</a></p>
+    <p>Made by Kian Slagter</p>
     <button class="theme-toggle" id="theme-toggle" type="button">
       <i class="material-icons light-icon">light_mode</i>
       <i class="material-icons dark-icon">dark_mode</i>
