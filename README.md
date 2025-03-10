@@ -1,6 +1,6 @@
 # Lecture Summariser
 
-This extension allows you to no longer watch your lectures.
+Easily summarise Echo360 lecture videos and create a quick recap/summary
 
 ## Installation
 
@@ -9,3 +9,7 @@ This extension allows you to no longer watch your lectures.
 3. [Retrieve an API key](https://aistudio.google.com/app/apikey) and update in the extension.
 4. Navigate to an Echo360 lecture page and press run.
 5. Enjoy!
+
+## Disclaimer
+
+Lecture summaries may be inaccurate or missing information due to the nature of AI used in this application
