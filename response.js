@@ -31,10 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Set the HTML content
     summaryContent.innerHTML = html;
-    
-    // Clear localStorage after use to avoid keeping large data in memory
-    // Uncomment this if you want to clear the data after loading
-    // localStorage.removeItem('lecture_summary');
   }
 
   // Copy functionality

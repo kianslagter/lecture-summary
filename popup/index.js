@@ -16,12 +16,14 @@ import {
 // user of your extension or for testing.
 const apiKey = '';
 
+// Gemini model variables
 let genAI = null;
 let model = null;
 let generationConfig = {
   temperature: 1
 };
 
+// Element references for ui componenets
 const inputPrompt = document.body.querySelector('#input-prompt');
 const buttonPrompt = document.body.querySelector('#button-prompt');
 const elementResponse = document.body.querySelector('#response');
@@ -29,16 +31,12 @@ const elementLoading = document.body.querySelector('#loading');
 const elementError = document.body.querySelector('#error');
 const apiKeyInput = document.body.querySelector('#api-key');
 const saveApiKeyButton = document.body.querySelector('#save-api-key');
-
 const apiKeyToggle = document.body.querySelector('#api-key-toggle');
 const apiKeySection = document.body.querySelector('.api-key-section');
-
-
-// Add new element reference at the top with other element declarations
 const elementApiKeyMessage = document.body.querySelector('#api-key-message');
 const elementGuide = document.body.querySelector('#guide');
 
-// Set initial text content
+// Initalise API key section toggle based on state
 apiKeyToggle.textContent = apiKeySection.classList.contains('collapsed') 
   ? '⚙️ Show API Settings' 
   : '⚙️ Hide API Settings';
@@ -50,7 +48,7 @@ apiKeyToggle.addEventListener('click', () => {
     : '⚙️ Hide API Settings';
 });
 
-// Load saved API key on startup
+// Load saved API key on startup and initalise exentension
 document.addEventListener('DOMContentLoaded', () => {
   const savedApiKey = localStorage.getItem('gemini_api_key');
   if (savedApiKey) {
@@ -62,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateGuideVisibility();
 });
 
-// Save API key
+// Handle api key saving and validation
 saveApiKeyButton.addEventListener('click', () => {
   const apiKey = apiKeyInput.value.trim();
   if (apiKey) {
@@ -85,7 +83,7 @@ saveApiKeyButton.addEventListener('click', () => {
   }
 });
 
-// Add new function to check and update run button state
+// Manage the Run button state based on whether an API key exists
 function updateRunButtonState() {
   const hasApiKey = !!localStorage.getItem('gemini_api_key');
   buttonPrompt.disabled = !(hasApiKey);
@@ -97,6 +95,7 @@ function updateRunButtonState() {
   }
 }
 
+// Gemini model initialization
 function initModel(generationConfig) {
   const apiKey = localStorage.getItem('gemini_api_key');
   if (!apiKey) {
@@ -105,6 +104,7 @@ function initModel(generationConfig) {
     return null;
   }
 
+  // configure model safety settings
   const safetySettings = [
     {
       category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
@@ -112,6 +112,7 @@ function initModel(generationConfig) {
     }
   ];
   
+  // Using 2.0 flash currently, could add option to be changed to other models?
   try {
     genAI = new GoogleGenerativeAI(apiKey);
     model = genAI.getGenerativeModel({
@@ -128,6 +129,7 @@ function initModel(generationConfig) {
   }
 }
 
+// Send the prompt to the model and return the response
 async function runPrompt(prompt) {
   try {
     const result = await model.generateContent(prompt);
@@ -148,6 +150,7 @@ async function runPrompt(prompt) {
   }
 }
 
+// Enable the prompt button based on input content
 inputPrompt.addEventListener('input', () => {
   if (inputPrompt.value.trim()) {
     buttonPrompt.removeAttribute('disabled');
@@ -156,6 +159,7 @@ inputPrompt.addEventListener('input', () => {
   }
 });
 
+// Main functionality of processing lecture content
 buttonPrompt.addEventListener('click', async () => {
   const prompt = inputPrompt.value.trim();
   showLoading();
@@ -205,7 +209,7 @@ buttonPrompt.addEventListener('click', async () => {
   }
 });
 
-// Add debug logs to getBearerToken
+// Retrieve authentication token from Echo360 using the content script
 async function getBearerToken() {
   try {
     console.log('Getting token from localStorage...');
@@ -240,11 +244,12 @@ async function getBearerToken() {
   }
 }
 
-// Add debug logs to fetchTranscript
+// Fetch transcript from echo360 from the reverse engineerred URL
 async function fetchTranscript(lessonId, mediaId, bearerToken) {
   const url = buildEcho360URL(lessonId, mediaId);
   console.log('Fetching transcript from URL:', url);
   
+  // Set up headers to mimic browser request to Echo360 API
   const headers = {
     'Authorization': `Bearer ${bearerToken}`,
     'Accept': 'application/json, text/plain, */*',
@@ -274,21 +279,23 @@ async function fetchTranscript(lessonId, mediaId, bearerToken) {
   }
 }
 
+// ui state management function
 function showLoading() {
   hide(elementResponse);
   hide(elementError);
   show(elementLoading);
 }
 
+// Display generated summary and open in new tab
 function showResponse(response) {
   hide(elementLoading);
   show(elementResponse);
   console.log(response);
   
-  // Store the response in localStorage instead of URL parameter
+  // Store the response in localStorage
   localStorage.setItem('lecture_summary', response);
   
-  // Create a new tab with the response page (without the response in URL)
+  // Create a new tab with the response page
   chrome.tabs.create({
     url: chrome.runtime.getURL('response.html')
   });
@@ -305,6 +312,7 @@ function showResponse(response) {
   });
 }
 
+// SHows error message to user
 function showError(error) {
   show(elementError);
   hide(elementResponse);
@@ -312,6 +320,8 @@ function showError(error) {
   elementError.textContent = error;
 }
 
+
+// Helper functions to mange element visibility
 function show(element) {
   element.removeAttribute('hidden');
 }
@@ -325,6 +335,7 @@ function buildEcho360URL(lessonId, mediaId) {
   return `${baseURL}${lessonId}/medias/${mediaId}/transcript-file?format=text`;
 }
 
+// Update the guide based on current page and API key status
 async function updateGuideVisibility() {
   const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
   const guideElement = document.getElementById('guide');
@@ -345,6 +356,7 @@ async function updateGuideVisibility() {
     return;
   }
   
+  // Show guide if user not on Echo360
   const tab = tabs[0];
   if (!tab.url.includes('echo360.net.au')) {
     show(guideElement);
@@ -357,7 +369,6 @@ async function updateGuideVisibility() {
   }
 }
 
-// Add this new event listener
 chrome.tabs.onActivated.addListener(() => {
   updateGuideVisibility();
 });
