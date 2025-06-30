@@ -160,6 +160,19 @@
     font-size: 32px;
   }
   
+  .main-content > h1 {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .summary h1 {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 0;
+  }
+  
   strong {
     font-weight: 600;
   }
@@ -292,4 +305,52 @@
     font-size: 48px;
     margin-bottom: 16px;
     display: block;
+  }
+  
+  /* Title editing */
+  .editable-title {
+    display: inline;
+  }
+  
+  .edit-title-btn {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    margin-left: 15px;
+    padding: 5px;
+    border-radius: 4px;
+    opacity: 0.7;
+    transition: all 0.2s;
+    vertical-align: middle;
+  }
+  
+  .edit-title-btn:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  .edit-title-btn i {
+    font-size: 20px;
+    vertical-align: middle;
+  }
+  
+  .title-input {
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+    padding: 5px 10px;
+    margin: 0;
+    font-family: inherit;
+    width: 70%;
+    min-width: 300px;
+  }
+  
+  .title-input:focus {
+    outline: none;
+    border-color: #007acc;
+    box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.2);
   }

@@ -17,35 +17,62 @@ function getPreview(text, maxLength = 100) {
   return stripped.length > maxLength ? stripped.substring(0, maxLength) + '...' : stripped;
 }
 
-// Function to get a title from the content
-function getTitle(text) {
+// Function to get the first line as title
+function getFirstLineTitle(text) {
   const lines = text.split('\n');
-  for (const line of lines) {
-    const trimmed = line.trim();
-    if (trimmed.startsWith('# ')) {
-      return trimmed.substring(2).replace(/[*#]/g, '');
-    }
-    if (trimmed.startsWith('## ')) {
-      return trimmed.substring(3).replace(/[*#]/g, '');
-    }
-    if (trimmed.length > 0 && !trimmed.startsWith('#')) {
-      const cleanText = trimmed.replace(/[*#]/g, '');
-      return cleanText.length > 50 ? cleanText.substring(0, 50) + '...' : cleanText;
-    }
+  const firstLine = lines[0]?.trim() || '';
+  // Remove all # symbols and any markdown formatting
+  return firstLine.replace(/^#+\s*/, '').replace(/[*]/g, '').trim() || 'Untitled Summary';
+}
+
+// Function to ensure content has a title
+function ensureContentHasTitle(content) {
+  const lines = content.split('\n');
+  const firstLine = lines[0]?.trim() || '';
+  
+  // If first line doesn't start with #, add a title
+  if (!firstLine.startsWith('#')) {
+    const title = getFirstLineTitle(content) || 'Lecture Summary';
+    return `# ${title}\n\n${content}`;
   }
-  return 'Untitled Summary';
+  
+  // If first line starts with ## or more, convert to single #
+  if (firstLine.startsWith('##')) {
+    const titleText = firstLine.replace(/^#+\s*/, '').trim();
+    lines[0] = `# ${titleText}`;
+    return lines.join('\n');
+  }
+  
+  return content;
+}
+
+// Function to update title in content
+function updateTitleInContent(content, newTitle) {
+  const lines = content.split('\n');
+  const cleanTitle = newTitle.replace(/^#+\s*/, '').trim();
+  
+  if (lines[0]?.trim().startsWith('#')) {
+    lines[0] = `# ${cleanTitle}`;
+  } else {
+    lines.unshift(`# ${cleanTitle}`);
+  }
+  
+  return lines.join('\n');
 }
 
 // Function to save a response to history
 function saveToHistory(content) {
   if (!content || content.trim() === '') return;
   
+  const contentWithTitle = ensureContentHasTitle(content);
+  const title = getFirstLineTitle(contentWithTitle);
+  
   const history = JSON.parse(localStorage.getItem('lecture_history') || '[]');
   const newEntry = {
     id: Date.now().toString(),
-    content: content,
-    title: getTitle(content),
-    preview: getPreview(content),
+    content: contentWithTitle,
+    title: title,
+    preview: getPreview(contentWithTitle),
     date: new Date().toISOString(),
     timestamp: Date.now()
   };
@@ -71,6 +98,28 @@ function loadHistory() {
 function clearHistory() {
   localStorage.removeItem('lecture_history');
   renderHistory();
+}
+
+// Function to update history item
+function updateHistoryItem(id, newContent) {
+  const history = loadHistory();
+  const itemIndex = history.findIndex(item => item.id === id);
+  
+  if (itemIndex !== -1) {
+    const contentWithTitle = ensureContentHasTitle(newContent);
+    history[itemIndex] = {
+      ...history[itemIndex],
+      content: contentWithTitle,
+      title: getFirstLineTitle(contentWithTitle),
+      preview: getPreview(contentWithTitle)
+    };
+    
+    localStorage.setItem('lecture_history', JSON.stringify(history));
+    renderHistory();
+    return history[itemIndex];
+  }
+  
+  return null;
 }
 
 // Function to render history items
@@ -105,7 +154,7 @@ function renderHistory() {
       const selectedItem = history.find(h => h.id === id);
       
       if (selectedItem) {
-        loadSummary(selectedItem.content);
+        loadSummary(selectedItem.content, selectedItem.id);
         
         // Update active state
         historyList.querySelectorAll('.history-item').forEach(i => i.classList.remove('active'));
@@ -116,14 +165,83 @@ function renderHistory() {
 }
 
 // Function to load a summary into the main content area
-function loadSummary(content) {
+function loadSummary(content, historyId = null) {
+  const contentWithTitle = ensureContentHasTitle(content);
   const summaryContent = document.getElementById('summary-content');
   const converter = new showdown.Converter();
-  const html = converter.makeHtml(content);
+  const html = converter.makeHtml(contentWithTitle);
   summaryContent.innerHTML = html;
   
   // Store the current content for copy functionality
-  window.currentSummaryContent = content;
+  window.currentSummaryContent = contentWithTitle;
+  window.currentHistoryId = historyId;
+  
+  // Add edit functionality to the first h1 in the summary content
+  addEditFunctionalityToSummaryTitle();
+}
+
+// Function to add edit functionality to the summary title
+function addEditFunctionalityToSummaryTitle() {
+  const summaryContent = document.getElementById('summary-content');
+  const titleElement = summaryContent.querySelector('h1');
+  
+  if (!titleElement) return;
+  
+  const originalTitle = titleElement.textContent;
+  titleElement.innerHTML = `
+    <span class="editable-title" id="summary-title">${originalTitle}</span>
+    <button class="edit-title-btn" id="edit-summary-title-btn" type="button">
+      <i class="material-icons">edit</i>
+    </button>
+  `;
+  
+  // Add edit functionality
+  const editBtn = document.getElementById('edit-summary-title-btn');
+  const titleSpan = document.getElementById('summary-title');
+  
+  editBtn.addEventListener('click', () => {
+    const currentTitle = titleSpan.textContent;
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = currentTitle;
+    input.className = 'title-input';
+    
+    titleSpan.style.display = 'none';
+    editBtn.style.display = 'none';
+    titleSpan.parentNode.insertBefore(input, titleSpan);
+    
+    input.focus();
+    input.select();
+    
+    function saveTitle() {
+      const newTitle = input.value.trim() || 'Untitled Summary';
+      titleSpan.textContent = newTitle;
+      titleSpan.style.display = 'inline';
+      editBtn.style.display = 'inline-block';
+      input.remove();
+      
+      // Update the content and history
+      if (window.currentSummaryContent) {
+        const updatedContent = updateTitleInContent(window.currentSummaryContent, newTitle);
+        window.currentSummaryContent = updatedContent;
+        
+        // Update in history if this is from history
+        if (window.currentHistoryId) {
+          updateHistoryItem(window.currentHistoryId, updatedContent);
+        }
+        
+        // Re-render the summary with updated content (but preserve edit state)
+        loadSummary(updatedContent, window.currentHistoryId);
+      }
+    }
+    
+    input.addEventListener('blur', saveTitle);
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        saveTitle();
+      }
+    });
+  });
 }
 
 // Function to handle sidebar toggle
@@ -139,16 +257,20 @@ document.addEventListener('DOMContentLoaded', () => {
   response = localStorage.getItem('lecture_summary') || '';
   
   if (response) {
+    const responseWithTitle = ensureContentHasTitle(response);
+    
     // Save to history if it's a new response
     const history = loadHistory();
-    const isNewResponse = !history.some(item => item.content === response);
+    const isNewResponse = !history.some(item => item.content === responseWithTitle);
     
+    let historyId = null;
     if (isNewResponse) {
-      saveToHistory(response);
+      const savedEntry = saveToHistory(responseWithTitle);
+      historyId = savedEntry?.id;
     }
     
     // Load the summary
-    loadSummary(response);
+    loadSummary(responseWithTitle, historyId);
   }
   
   // Render history
