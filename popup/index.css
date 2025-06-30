@@ -204,3 +204,24 @@ h1 {
   border-top: 1px solid var(--border-color);
   z-index: 1000;
 }
+
+/* Background processing status styling */
+.background-status {
+  padding: 16px;
+  text-align: center;
+  color: var(--text-color);
+}
+
+.background-status small {
+  display: block;
+  margin-top: 8px;
+  opacity: 0.7;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* Additional styling for inline style replacements */
+.api-key-message,
+.guide-section {
+  margin-bottom: 16px;
+}

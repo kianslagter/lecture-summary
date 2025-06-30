@@ -277,11 +277,17 @@ function toggleSidebar() {
   sidebar.classList.toggle('open');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   let response = '';
   
-  // Get the response from localStorage
-  response = localStorage.getItem('lecture_summary') || '';
+  // Get the response from chrome storage (preferred) or localStorage (fallback)
+  try {
+    const storageResult = await chrome.storage.local.get(['lecture_summary']);
+    response = storageResult.lecture_summary || localStorage.getItem('lecture_summary') || '';
+  } catch (error) {
+    // Fallback to localStorage if chrome.storage is not available
+    response = localStorage.getItem('lecture_summary') || '';
+  }
   
   if (response) {
     const responseWithTitle = ensureContentHasTitle(response);

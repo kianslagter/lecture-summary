@@ -4,12 +4,14 @@
   "manifest_version": 3,
   "description": "This extension provides a reason to no longer watch your lectures ",
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "dist/background.bundle.js",
+    "type": "module"
   },
   "permissions": [
     "cookies",
     "tabs",
-    "scripting"
+    "scripting",
+    "storage"
   ],
   "host_permissions": [
     "https://myuni.adelaide.edu.au/*",

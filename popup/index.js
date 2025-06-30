@@ -50,7 +50,7 @@ apiKeyToggle.addEventListener('click', () => {
 });
 
 // Load saved API key on startup and initalise exentension
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const savedApiKey = localStorage.getItem('gemini_api_key');
   if (savedApiKey) {
     apiKeyInput.value = savedApiKey;
@@ -59,6 +59,29 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   updateRunButtonState();
   updateGuideVisibility();
+  
+  // Check if there's an ongoing generation
+  try {
+    const statusResponse = await chrome.runtime.sendMessage({
+      type: 'GET_GENERATION_STATUS'
+    });
+    
+    if (statusResponse.inProgress || 
+        statusResponse.status === 'fetching_transcript' || 
+        statusResponse.status === 'generating_summary') {
+      // Resume status polling and show background processing
+      startStatusPolling();
+      showBackgroundProcessing();
+      
+      if (statusResponse.status === 'fetching_transcript') {
+        updateBackgroundStatus('Fetching transcript...');
+      } else if (statusResponse.status === 'generating_summary') {
+        updateBackgroundStatus('Generating summary...');
+      }
+    }
+  } catch (error) {
+    console.log('No background generation in progress');
+  }
 });
 
 // Handle api key saving and validation
@@ -135,26 +158,7 @@ function initModel(generationConfig) {
   }
 }
 
-// Send the prompt to the model and return the response
-async function runPrompt(prompt) {
-  try {
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    return response.text();
-  } catch (e) {
-    console.log('Prompt failed');
-    console.error(e);
-    console.log('Prompt:', prompt);
-    
-    // Check if it's an invalid API key error
-    if (e.toString().includes('API key not valid') || 
-        e.toString().includes('API_KEY_INVALID')) {
-      throw new Error('Invalid API Key, please provide a valid key');
-    }
-    
-    throw e;
-  }
-}
+
 
 // Enable the prompt button based on input content
 inputPrompt.addEventListener('input', () => {
@@ -194,16 +198,28 @@ buttonPrompt.addEventListener('click', async () => {
       }
       
       const bearerToken = await getBearerToken();
-      const transcript = await fetchTranscript(response.lessonId, response.mediaId, bearerToken);
+      const apiKey = localStorage.getItem('gemini_api_key');
       
-      // Update the prompt with the transcript
-      const fullPrompt = "As a professional summarizer, create a concise and comprehensive summary of the provided text, which is an audio transcript of an academic lecture, while adhering to these guidelines: 1. Craft a summary that is detailed, thorough, in-depth, and complex, while maintaining clarity and conciseness. 2. Incorporate all main ideas and all inital information provided, ensuring ease of understanding, while including all concepts mentioned. 3. Rely strictly on the provided text, without including external information. 4. Format the summary using standard CommonMark Spec markdown styling, but do not include the markdown prefix only raw markdown text, and ensure formatting is in sections for a note-taking form for easy understanding. By following these optimized prompts, you will generate an effective summary that encapsulates the essence of the given text in a clear, concise, and reader-friendly manner. Please follow these instructions for the following text:" + transcript;
-
-
-      // Initialize model and run the prompt
-      initModel(generationConfig);
-      const aiResponse = await runPrompt(fullPrompt, generationConfig);
-      showResponse(aiResponse);
+      if (!apiKey) {
+        throw new Error('API key required');
+      }
+      
+      // Send generation request to background script
+      const backgroundResponse = await chrome.runtime.sendMessage({
+        type: 'GENERATE_SUMMARY',
+        echoPlayerData: response,
+        bearerToken: bearerToken,
+        apiKey: apiKey
+      });
+      
+      if (backgroundResponse.status === 'started') {
+        // Start polling for status updates
+        startStatusPolling();
+        showBackgroundProcessing();
+      } else {
+        throw new Error('Failed to start background generation');
+      }
+      
     } catch (error) {
       if (error.message && error.message.includes("Receiving end does not exist")) {
         throw new Error('Could not connect, please check your connection or refresh the page');
@@ -250,40 +266,7 @@ async function getBearerToken() {
   }
 }
 
-// Fetch transcript from echo360 from the reverse engineerred URL
-async function fetchTranscript(lessonId, mediaId, bearerToken) {
-  const url = buildEcho360URL(lessonId, mediaId);
-  console.log('Fetching transcript from URL:', url);
-  
-  // Set up headers to mimic browser request to Echo360 API
-  const headers = {
-    'Authorization': `Bearer ${bearerToken}`,
-    'Accept': 'application/json, text/plain, */*',
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36',
-    'Referer': `https://echo360.net.au/lesson/${lessonId}_classroom`,
-  };
-  console.log('Request headers:', headers);
 
-  try {
-    console.log('Making fetch request...');
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: headers
-    });
-    console.log('Response status:', response.status);
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    
-    const text = await response.text();
-    console.log('Response text length:', text.length);
-    return text;
-  } catch (error) {
-    console.error('Error fetching transcript:', error);
-    throw error;
-  }
-}
 
 // ui state management function
 function showLoading() {
@@ -318,6 +301,61 @@ function showResponse(response) {
   });
 }
 
+// Show background processing status
+function showBackgroundProcessing() {
+  hide(elementLoading);
+  show(elementResponse);
+  elementResponse.innerHTML = `
+    <div style="text-align: center;">
+      <div class="background-status">
+        <span class="blink">Processing in background...</span>
+        <br><small>You can close this popup or switch tabs. The summary will open automatically when ready.</small>
+      </div>
+    </div>
+  `;
+}
+
+// Start polling for generation status
+function startStatusPolling() {
+  const pollInterval = setInterval(async () => {
+    try {
+      const statusResponse = await chrome.runtime.sendMessage({
+        type: 'GET_GENERATION_STATUS'
+      });
+      
+      if (statusResponse.status === 'completed') {
+        clearInterval(pollInterval);
+        // Get the generated summary from storage
+        const result = await chrome.storage.local.get(['lecture_summary']);
+        if (result.lecture_summary) {
+          showResponse(result.lecture_summary);
+        }
+      } else if (statusResponse.status === 'error') {
+        clearInterval(pollInterval);
+        showError(statusResponse.error || 'Generation failed');
+      } else if (statusResponse.status === 'fetching_transcript') {
+        updateBackgroundStatus('Fetching transcript...');
+      } else if (statusResponse.status === 'generating_summary') {
+        updateBackgroundStatus('Generating summary...');
+      }
+    } catch (error) {
+      console.error('Error polling status:', error);
+      // Continue polling in case of temporary errors
+    }
+  }, 2000); // Poll every 2 seconds
+}
+
+// Update background processing status message
+function updateBackgroundStatus(message) {
+  const statusElement = document.querySelector('.background-status');
+  if (statusElement) {
+    statusElement.innerHTML = `
+      <span class="blink">${message}</span>
+      <br><small>You can close this popup or switch tabs. The summary will open automatically when ready.</small>
+    `;
+  }
+}
+
 // SHows error message to user
 function showError(error) {
   show(elementError);
@@ -336,10 +374,7 @@ function hide(element) {
   element.setAttribute('hidden', '');
 }
 
-function buildEcho360URL(lessonId, mediaId) {
-  const baseURL = 'https://echo360.net.au/api/ui/echoplayer/lessons/';
-  return `${baseURL}${lessonId}/medias/${mediaId}/transcript-file?format=text`;
-}
+
 
 // Update the guide based on current page and API key status
 async function updateGuideVisibility() {

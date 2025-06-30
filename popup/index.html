@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <link rel="stylesheet" type="text/css" href="index.css" />
+    <title>Lecture Summariser</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
       body {
@@ -16,22 +17,21 @@
       <span class="title-line">Lecture</span>
       <span class="title-line">Summariser</span>
     </h1>
-    <button class="theme-toggle" id="theme-toggle">
+    <button type="button" class="theme-toggle" id="theme-toggle">
       <i class="material-icons light-icon">light_mode</i>
       <i class="material-icons dark-icon">dark_mode</i>
     </button>
-    <div id="api-key-message" class="text" style="margin-bottom: 16px;">
+    <div id="api-key-message" class="text api-key-message">
       API key required, you can create one here: <a href="https://aistudio.google.com/app/apikey" target="_blank">https://aistudio.google.com/app/apikey</a>
     </div>
-    <button id="api-key-toggle" class="secondary toggle-button">⚙️ Show API Settings</button>
+    <button type="button" id="api-key-toggle" class="secondary toggle-button">⚙️ Show API Settings</button>
     <div class="api-key-section collapsed">
       <input
         type="password"
         id="api-key"
         placeholder="Enter API key"
-        class="compact-input"
-      />
-      <button id="save-api-key" class="secondary compact-button">Save</button>
+        class="compact-input">
+      <button type="button" id="save-api-key" class="secondary compact-button">Save</button>
     </div>
     <textarea
       id="input-prompt"
@@ -41,11 +41,11 @@
       hidden
     ></textarea>
     <br>
-    <div id="guide" class="text" style="margin-bottom: 16px;">
+    <div id="guide" class="text guide-section">
       <span id="guide-navigate">Please navigate to: <a href="https://echo360.net.au/" target="_blank">https://echo360.net.au/</a> in order to generate a lecture summary.</span>
       <span id="guide-ready" hidden>Ready to generate lecture summary</span>
     </div>
-    <button id="button-prompt" class="primary" disabled>Run</button>
+    <button type="button" id="button-prompt" class="primary" disabled>Run</button>
     <div id="transcript-success" class="text" hidden>Transcript fetched successfully</div>
     <br>
     <div id="response" class="text" hidden></div>
