@@ -20,14 +20,19 @@
     </div>
     <div class="main-content">
       <h1>Lecture Summary</h1>
-      <div class="copy-buttons">
-        <button class="copy-button" id="copy-raw" type="button">
-          <i class="material-icons">content_copy</i> Copy Raw Text
-          <span class="copy-success" id="copy-raw-success">Copied!</span>
-        </button>
-        <button class="copy-button" id="copy-markdown" type="button">
-          <i class="material-icons">text_format</i> Copy Markdown
-          <span class="copy-success" id="copy-markdown-success">Copied!</span>
+      <div class="button-row">
+        <div class="copy-buttons">
+          <button class="copy-button" id="copy-raw" type="button">
+            <i class="material-icons">content_copy</i> Copy Raw Text
+            <span class="copy-success" id="copy-raw-success">Copied!</span>
+          </button>
+          <button class="copy-button" id="copy-markdown" type="button">
+            <i class="material-icons">text_format</i> Copy Markdown
+            <span class="copy-success" id="copy-markdown-success">Copied!</span>
+          </button>
+        </div>
+        <button class="delete-button" id="delete-entry" type="button">
+          <i class="material-icons">delete</i>
         </button>
       </div>
       <div class="summary" id="summary-content"></div>

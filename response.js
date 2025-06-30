@@ -100,6 +100,22 @@ function clearHistory() {
   renderHistory();
 }
 
+// Function to delete a specific history item
+function deleteHistoryItem(id) {
+  const history = loadHistory();
+  const filteredHistory = history.filter(item => item.id !== id);
+  localStorage.setItem('lecture_history', JSON.stringify(filteredHistory));
+  renderHistory();
+  
+  // If we deleted the currently displayed item, clear the content
+  if (window.currentHistoryId === id) {
+    const summaryContent = document.getElementById('summary-content');
+    summaryContent.innerHTML = '<p>Select a summary from the history to view it here.</p>';
+    window.currentSummaryContent = '';
+    window.currentHistoryId = null;
+  }
+}
+
 // Function to update history item
 function updateHistoryItem(id, newContent) {
   const history = loadHistory();
@@ -333,6 +349,22 @@ document.addEventListener('DOMContentLoaded', () => {
   clearHistoryBtn.addEventListener('click', () => {
     if (confirm('Are you sure you want to clear all history? This action cannot be undone.')) {
       clearHistory();
+    }
+  });
+  
+  // Delete current entry
+  const deleteEntryBtn = document.getElementById('delete-entry');
+  deleteEntryBtn.addEventListener('click', () => {
+    if (window.currentHistoryId) {
+      const history = loadHistory();
+      const currentItem = history.find(item => item.id === window.currentHistoryId);
+      const itemTitle = currentItem ? currentItem.title : 'this entry';
+      
+      if (confirm(`Are you sure you want to delete "${itemTitle}"? This action cannot be undone.`)) {
+        deleteHistoryItem(window.currentHistoryId);
+      }
+    } else {
+      alert('No entry selected to delete. Please select an entry from the history first.');
     }
   });
   
