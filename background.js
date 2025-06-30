@@ -30,7 +30,7 @@ function initModel(apiKey) {
   try {
     genAI = new GoogleGenerativeAI(apiKey);
     model = genAI.getGenerativeModel({
-      model: 'gemini-2.5-flash-preview-05-20',
+      model: 'gemini-2.5-flash',
       safetySettings,
       generationConfig
     });
@@ -115,8 +115,7 @@ async function generateSummary(echoPlayerData, bearerToken, apiKey) {
     
     // Initialize model and generate summary
     initModel(apiKey);
-    const fullPrompt = "As a professional summarizer, create a concise and comprehensive summary of the provided text, which is an audio transcript of an academic lecture, while adhering to these guidelines: 1. Craft a summary that is detailed, thorough, in-depth, and complex, while maintaining clarity and conciseness. 2. Incorporate all main ideas and all inital information provided, ensuring ease of understanding, while including all concepts mentioned. 3. Rely strictly on the provided text, without including external information. 4. Format the summary using standard CommonMark Spec markdown styling, but do not include the markdown prefix only raw markdown text, and ensure formatting is in sections for a note-taking form for easy understanding. By following these optimized prompts, you will generate an effective summary that encapsulates the essence of the given text in a clear, concise, and reader-friendly manner. Please follow these instructions for the following text:" + transcript;
-    
+    const fullPrompt = "You are a professional summarizer. Your task is to produce a clear, structured, and comprehensive summary of the provided academic lecture transcript. Follow these specific guidelines: 1. The summary must be detailed and in-depth, yet concise and easy to understand. 2. Clearly convey all key concepts, arguments, and examples presented in the lecture. 3. Strictly adhere to the content of the transcript. Do not add interpretations, assumptions, or external information. 4.Present the summary using CommonMark Spec markdown syntax, structured in a note-taking format: - Use headings (#, ##) to separate major topics or sections. - Use bullet points (-) for supporting details or subpoints. - Use bold or italics to highlight key terms or concepts. 5. Return only raw markdown text, without wrapping it in code blocks or including any non-markdown output, and without including any content other than the summary itself. Please follow these instructions for the following text:" + transcript;
     const aiResponse = await runPrompt(fullPrompt);
     
     // Store the response
