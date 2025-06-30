@@ -19,6 +19,10 @@ body {
   background-color: var(--bg-color);
   font-size: 16px;
   padding: 8px;
+  padding-bottom: 60px;
+  position: relative;
+  min-height: 400px;
+  box-sizing: border-box;
 }
 
 input,
@@ -184,4 +188,19 @@ h1 {
 
 .title-line {
   display: block;
+}
+
+/* Footer button styling */
+.footer-button {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  margin: 0;
+  border-radius: 0;
+  padding: 12px;
+  font-size: 14px;
+  border-top: 1px solid var(--border-color);
+  z-index: 1000;
 }

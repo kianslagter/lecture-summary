@@ -35,6 +35,7 @@ const apiKeyToggle = document.body.querySelector('#api-key-toggle');
 const apiKeySection = document.body.querySelector('.api-key-section');
 const elementApiKeyMessage = document.body.querySelector('#api-key-message');
 const elementGuide = document.body.querySelector('#guide');
+const viewSummariesButton = document.body.querySelector('#view-summaries');
 
 // Initalise API key section toggle based on state
 apiKeyToggle.textContent = apiKeySection.classList.contains('collapsed') 
@@ -81,6 +82,11 @@ saveApiKeyButton.addEventListener('click', () => {
     elementError.textContent = 'API key required, you can create one here: https://aistudio.google.com/app/apikey';
     elementError.hidden = false;
   }
+});
+
+// Handle opening the response page to view previously generated summaries
+viewSummariesButton.addEventListener('click', () => {
+  chrome.tabs.create({ url: chrome.runtime.getURL('response.html') });
 });
 
 // Manage the Run button state based on whether an API key exists
