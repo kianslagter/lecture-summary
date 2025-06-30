@@ -230,10 +230,19 @@ function addEditFunctionalityToSummaryTitle() {
     input.select();
     
     function saveTitle() {
+      // Check if input still exists to prevent double-execution error
+      if (!input.parentNode) {
+        return;
+      }
+      
       const newTitle = input.value.trim() || 'Untitled Summary';
       titleSpan.textContent = newTitle;
       titleSpan.style.display = 'inline';
       editBtn.style.display = 'inline-block';
+      
+      // Remove event listeners before removing the element
+      input.removeEventListener('blur', saveTitle);
+      input.removeEventListener('keypress', handleKeypress);
       input.remove();
       
       // Update the content and history
@@ -251,12 +260,14 @@ function addEditFunctionalityToSummaryTitle() {
       }
     }
     
-    input.addEventListener('blur', saveTitle);
-    input.addEventListener('keypress', (e) => {
+    function handleKeypress(e) {
       if (e.key === 'Enter') {
         saveTitle();
       }
-    });
+    }
+    
+    input.addEventListener('blur', saveTitle);
+    input.addEventListener('keypress', handleKeypress);
   });
 }
 
