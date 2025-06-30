@@ -23,13 +23,14 @@ function getTitle(text) {
   for (const line of lines) {
     const trimmed = line.trim();
     if (trimmed.startsWith('# ')) {
-      return trimmed.substring(2);
+      return trimmed.substring(2).replace(/[*#]/g, '');
     }
     if (trimmed.startsWith('## ')) {
-      return trimmed.substring(3);
+      return trimmed.substring(3).replace(/[*#]/g, '');
     }
     if (trimmed.length > 0 && !trimmed.startsWith('#')) {
-      return trimmed.length > 50 ? trimmed.substring(0, 50) + '...' : trimmed;
+      const cleanText = trimmed.replace(/[*#]/g, '');
+      return cleanText.length > 50 ? cleanText.substring(0, 50) + '...' : cleanText;
     }
   }
   return 'Untitled Summary';
