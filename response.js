@@ -8,7 +8,8 @@ function stripMarkdown(text) {
     .replace(/`([^`]+)`/g, '$1') // Remove inline code
     .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1') // Replace links with just text
     .replace(/^\s*[-+*]\s/gm, '') // Remove list markers
-    .replace(/^\s*\d+\.\s/gm, ''); // Remove numbered list markers
+    .replace(/^\s*\d+\.\s/gm, '') // Remove numbered list markers
+    .replace(/^\s+/gm, ''); // Remove leading whitespace from all lines
 }
 
 // Function to get a preview of the content
